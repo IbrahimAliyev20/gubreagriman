@@ -39,7 +39,7 @@ function LanguageSelector() {
                             key={locale}
                             type="button"
                             onClick={() => handleSelect(locale)}
-                            className={`text-sm text-left px-2 py-1 rounded text-[#BCBCBC] hover:text-primary cursor-pointer ${
+                            className={`text-sm text-left px-2 py-1 rounded text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 ${
                                 activeLocale === locale ? 'font-semibold' : 'font-normal'
                             }`}
                         >

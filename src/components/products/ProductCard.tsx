@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface ProductCardProps {
   id: number;
@@ -18,6 +19,7 @@ export default function ProductCard({
 }: {
   product: ProductCardProps;
 }) {
+  const t = useTranslations("buttons");
   const categoryTextColor = "text-gray-400"; 
   const productNameColor = "text-black"; 
   const viewButtonBg = "bg-[#8BC34A]"; 
@@ -51,9 +53,9 @@ export default function ProductCard({
       {product.slug ? (
         <Link
           href={`/products/${product.slug}`}
-          className={` w-full flex items-center justify-between gap-2 rounded-full  ${viewButtonBg} ${viewButtonHoverBg} ${viewButtonActiveBg} text-white px-4 py-2  text-sm font-medium transition-all duration-200 hover:shadow-md`}
+          className={` w-full flex items-center justify-between gap-2 rounded-full  ${viewButtonBg} ${viewButtonHoverBg} ${viewButtonActiveBg} text-white px-4 py-2  text-sm font-medium transition-all duration-300 ease-in-out hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer`}
         >
-          View Product
+          {t("viewProduct")}
           <ArrowRight className="h-6 w-6" />
         </Link>
       ) : (
@@ -61,7 +63,7 @@ export default function ProductCard({
           disabled
           className={` w-full flex items-center justify-between gap-2 rounded-full bg-gray-400 text-white px-4 py-2  text-sm font-medium cursor-not-allowed`}
         >
-          View Product
+          {t("viewProduct")}
           <ArrowRight className="h-6 w-6" />
         </button>
       )} 

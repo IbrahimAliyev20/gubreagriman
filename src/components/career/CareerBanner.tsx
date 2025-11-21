@@ -1,7 +1,10 @@
+"use client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function CareerBanner() {
+  const t = useTranslations("buttons");
   return (
     <div
       className="relative rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-[#BDBDBD]"
@@ -20,8 +23,8 @@ export default function CareerBanner() {
           AGRO GÜBRƏ ilə Başlayın
           </h1>
 
-          <button className="inline-flex w-full md:w-fit items-center justify-center gap-2 bg-[#83B957] hover:bg-[#7CB342] text-white px-5 py-3 md:px-6 md:py-2 rounded-full text-sm md:text-base font-semibold transition-colors mb-2 md:mb-4">
-            Bizimlə əlaqə
+          <button className="inline-flex w-full md:w-fit items-center justify-center gap-2 bg-[#83B957] hover:bg-[#7CB342] text-white px-5 py-3 md:px-6 md:py-2 rounded-full text-sm md:text-base font-semibold transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 cursor-pointer mb-2 md:mb-4">
+            {t("contactUs")}
             <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
           </button>
 

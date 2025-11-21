@@ -8,6 +8,38 @@
     "products": "Məhsullar",
     "services": "Xidmətlər",
     "career": "Karyera",
-    "contact": "Əlaqə saxlayın" 
+    "contact": "Əlaqə saxlayın",
+    "homepage": "Ana səhifə"
+  },
+  "footer": {
+    "company": "Şirkət",
+    "socials": "Sosial media",
+    "contacts": "Bizimlə əlaqə",
+    "homepage": "Ana səhifə",
+    "about": "Haqqımızda",
+    "products": "Məhsullar",
+    "services": "Xidmətlər",
+    "career": "Karyera",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "linkedin": "Linkedin",
+    "youtube": "Youtube",
+    "tiktok": "Tik Tok",
+    "findSolution": "Layihəniz Üçün Ən Uyğun Həlli Tapın",
+    "findSolutionDesc": "Xidmətlərimiz, qiymət təklifi və əməkdaşlıq imkanları ilə maraqlanırsınız? Sadəcə formu doldurun – komandamız qısa zamanda sizinlə əlaqə saxlayacaq.",
+    "allRightsReserved": "© 2025 AGRIMAN Consulting MMC. Bütün hüquqlar qorunur.",
+    "termsConditions": "Şərtlər və Qaydalar",
+    "privacyPolicy": "Məxfilik Siyasəti",
+    "agreement": "Müqavilə"
+  },
+  "buttons": {
+    "contactUs": "Bizimlə əlaqə",
+    "aboutUs": "Haqqımızda",
+    "viewProduct": "Məhsula bax",
+    "submitQuote": "Təklif göndər",
+    "send": "Göndər",
+    "uploadCV": "CV-ni Yüklə",
+    "contactUsShort": "Bizimlə əlaqə"
   }
 }

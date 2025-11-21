@@ -80,7 +80,7 @@ export function ServiceTabsSec() {
             <TabsTrigger
               key={service.title}
               value={service.title}
-              className="flex items-center justify-start py-1.5 px-3 md:py-2 md:px-5 text-sm md:text-[18px] font-bold rounded-lg whitespace-nowrap border border-gray-300 bg-white text-gray-600 data-[state=active]:bg-[#80C34A] data-[state=active]:text-white data-[state=active]:border-transparent"
+              className="flex items-center justify-start py-1.5 px-3 md:py-2 md:px-5 text-sm md:text-[18px] font-bold rounded-lg whitespace-nowrap border border-gray-300 bg-white text-gray-600 data-[state=active]:bg-[#80C34A] data-[state=active]:text-white data-[state=active]:border-transparent cursor-pointer transition-all duration-300 ease-in-out hover:bg-gray-50 hover:border-gray-400 data-[state=active]:hover:bg-[#7CB342]"
             >
               {service.title}
             </TabsTrigger>
@@ -92,7 +92,7 @@ export function ServiceTabsSec() {
             <TabsContent
               key={service.title}
               value={service.title}
-              className="mt-6 md:mt-10"
+              className="mt-6 md:mt-10 transition-all duration-500 ease-in-out"
             >
               <div className="flex flex-col gap-8 md:gap-12">
                 <div className="div1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">

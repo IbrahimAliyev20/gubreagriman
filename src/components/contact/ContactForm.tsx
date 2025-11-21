@@ -2,8 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function ContactForm() {
+  const t = useTranslations("buttons");
   return (
     <div
       className="rounded-[20px] border border-[#BDBDBD] p-12  gap-10 flex flex-col md:flex-row"
@@ -74,7 +76,7 @@ export default function ContactForm() {
             type="submit"
             className=" bg-black text-white rounded-[18px] h-10 px-12 border-0"
           >
-            Göndər
+            {t("send")}
           </Button>
         </div>
       </div>

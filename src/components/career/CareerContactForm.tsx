@@ -4,8 +4,10 @@ import { Paperclip } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function CareerContactForm() {
+  const t = useTranslations("buttons");
   const [cvFile, setCvFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +89,7 @@ export default function CareerContactForm() {
             >
               <span className="flex items-center justify-center gap-2 cursor-pointer">
                 <Paperclip className="h-5 w-5" />
-                CV-ni Yüklə
+                {t("uploadCV")}
               </span>
             </Button>
           </label>
@@ -96,7 +98,7 @@ export default function CareerContactForm() {
             type="submit"
             className="flex-1 bg-[#85C553] hover:bg-[#7CB342] text-white rounded-[20px] h-12 px-4 border-0"
           >
-            Göndər
+            {t("send")}
           </Button>
         </div>
       </div>

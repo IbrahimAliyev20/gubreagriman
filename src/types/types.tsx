@@ -49,10 +49,8 @@ export interface Services {
 }
 
 export interface ProductSubCategory {
-  id: number;
   name: string;
   slug: string;
-  category_id: number;
 }
 
 export interface ProductCategory {
@@ -82,4 +80,9 @@ export interface ProductDetail {
     formulation: string;
   };
   applicationTable?: ApplicationTableRow[];
+}
+export interface ProductCategoryResponse {
+  name: string;
+  slug: string;
+  sub_categories: ProductSubCategory[];
 }

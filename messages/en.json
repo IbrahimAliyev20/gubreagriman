@@ -8,6 +8,38 @@
     "products": "Products",
     "services": "Services",
     "career": "Career",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "homepage": "Homepage"
+  },
+  "footer": {
+    "company": "Company",
+    "socials": "Socials",
+    "contacts": "Contacts",
+    "homepage": "Homepage",
+    "about": "About us",
+    "products": "Products",
+    "services": "Services",
+    "career": "Career",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "linkedin": "Linkedin",
+    "youtube": "Youtube",
+    "tiktok": "Tik Tok",
+    "findSolution": "Find the Most Suitable Solution for Your Project",
+    "findSolutionDesc": "Are you interested in our services, price offers, and cooperation opportunities? Just fill out the form - our team will contact you shortly.",
+    "allRightsReserved": "© 2025 AGRIMAN Consulting MMC. All rights reserved.",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "agreement": "Agreement"
+  },
+  "buttons": {
+    "contactUs": "Contact us",
+    "aboutUs": "About Us",
+    "viewProduct": "View Product",
+    "submitQuote": "Submit a Quote",
+    "send": "Send",
+    "uploadCV": "Upload CV",
+    "contactUsShort": "Contact us"
   }
 }

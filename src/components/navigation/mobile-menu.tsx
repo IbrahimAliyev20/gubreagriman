@@ -82,7 +82,7 @@ export function MobileMenu() {
                             prev === item.href ? null : item.href
                           )
                         }
-                        className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-left text-lg transition-colors ${
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-left text-lg transition-all duration-300 ease-in-out cursor-pointer ${
                           (
                             expandedKey
                               ? expandedKey === item.href
@@ -125,7 +125,7 @@ export function MobileMenu() {
                                 key={dropdownItem.href}
                                 href={dropdownItem.href}
                                 onClick={() => setOpen(false)}
-                                className={`block px-6 py-2 rounded-lg transition-colors ${
+                                className={`block px-6 py-2 rounded-lg transition-all duration-300 ease-in-out cursor-pointer ${
                                   isActive
                                     ? "bg-[#EEF3F5] text-black font-medium"
                                     : "text-gray-500 font-normal hover:bg-[#EEF3F5] hover:text-black"
@@ -142,7 +142,7 @@ export function MobileMenu() {
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`block px-4 py-3 rounded-lg transition-colors ${
+                      className={`block px-4 py-3 rounded-lg transition-all duration-300 ease-in-out cursor-pointer ${
                         pathname === item.href
                           ? "bg-[#EEF3F5] text-black font-medium"
                           : "text-gray-500 font-normal hover:bg-[#EEF3F5] hover:text-black"
@@ -159,16 +159,16 @@ export function MobileMenu() {
           {/* DƏYİŞİKLİK: İKON BLOKU (Menyunun ən altında) */}
           <div className="p-4 border-t border-[#2C2C2E]">
             <div className="flex items-center justify-center gap-2.5 rounded-full bg-gray-100 py-1 px-4">
-              <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer">
+              <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
                 <Search className="h-5 w-5" />
               </button>
               <Link
                 href="/login"
-                className="p-1.5 text-[#BCBCBC] hover:text-primary"
+                className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95"
               >
                 <User className="h-5 w-5" />
               </Link>
-              <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer">
+              <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
                 <ShoppingCart className="h-5 w-5" />
               </button>
               <div className="mx-1 h-6 w-px bg-gray-300" />
@@ -180,7 +180,7 @@ export function MobileMenu() {
           <div className="p-4 border-t border-[#2C2C2E] space-y-3">
             <Link
               href="/contact"
-              className="text-black font-medium transition-colors"
+              className="text-black font-medium transition-all duration-300 ease-in-out cursor-pointer"
             >
               <Button
                 className="w-full bg-primary text-white hover:bg-primary/90 rounded-lg"

@@ -2,10 +2,13 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useBanners } from "@/services/Home/queires";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function HeroBanner() {
   const { data: banner } = useBanners("home");
   const bannerData = banner?.data;
+  const t = useTranslations("buttons");
 
   return (
     <div
@@ -24,10 +27,10 @@ export default function HeroBanner() {
            {bannerData?.title}
           </h1>
 
-          <button className="inline-flex w-full md:w-fit items-center justify-center gap-2 bg-[#83B957] hover:bg-[#7CB342] text-white px-5 py-3 md:px-6 md:py-2 rounded-full text-sm md:text-base font-bold transition-colors mb-2 md:mb-4">
-            Contact us
+          <Link href="/contact" className="inline-flex w-full md:w-fit items-center justify-center gap-2 bg-[#83B957] hover:bg-[#7CB342] text-white px-5 py-3 md:px-6 md:py-2 rounded-full text-sm md:text-base font-bold transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 cursor-pointer mb-2 md:mb-4">
+            {t("contactUs")}
             <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
-          </button>
+          </Link>
 
           <p className="text-black text-xs md:text-base leading-relaxed">
           {bannerData?.description}

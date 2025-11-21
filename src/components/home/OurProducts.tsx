@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import React from "react";
+import { Link } from "@/i18n/navigation";
 
 function OurProducts() {
   return (
@@ -22,8 +22,8 @@ function OurProducts() {
           təqdim edirik.{" "}
         </p>
         <Link
-          href="#"
-          className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+          href="/products"
+          className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
         >
           Məhsullarımız <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
         </Link>
@@ -42,8 +42,8 @@ function OurProducts() {
             Bitki mühafizə vasitələri
           </p>
           <Link
-            href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            href="/products"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>
@@ -61,8 +61,8 @@ function OurProducts() {
             Bitki stimulyatorları
           </p>
           <Link
-            href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            href="/products"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>
@@ -80,7 +80,7 @@ function OurProducts() {
           </p>
           <Link
             href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>
@@ -96,8 +96,8 @@ function OurProducts() {
           </span>
           <p className="text-base md:text-[18px] font-extrabold">Feromonlar</p>
           <Link
-            href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            href="/products"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>
@@ -113,7 +113,7 @@ function OurProducts() {
           <p className="text-base md:text-[18px] font-extrabold">Gübrələr</p>
           <Link
             href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>
@@ -129,7 +129,7 @@ function OurProducts() {
           <p className="text-base md:text-[18px] font-extrabold">Toxumlar</p>
           <Link
             href="#"
-            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base"
+            className="flex gap-2 font-bold bg-white w-full md:w-fit justify-center px-4 py-1.5 md:px-6 md:py-1 rounded-2xl text-sm md:text-base hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             Ətraflı <ArrowRight className="h-4 w-4 md:h-6 md:w-6" />
           </Link>

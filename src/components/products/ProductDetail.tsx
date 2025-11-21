@@ -4,12 +4,14 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { ProductDetail } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 interface ProductDetailProps {
   product: ProductDetail;
 }
 
 export default function ProductDetailComponent({ product }: ProductDetailProps) {
+  const t = useTranslations("buttons");
   return (
     <div className="w-full">
       {/* Product Image and Info Section */}
@@ -30,8 +32,8 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
           <p className="text-sm text-gray-500">{`Kateqoriya: ${product.category}`}</p>
           <h1 className="text-3xl md:text-4xl font-bold text-black">{product.name}</h1>
           
-          <button className="w-fit flex items-center gap-2 bg-[#8BC34A] hover:bg-[#7CB342] text-white px-6 py-3 rounded-full font-medium transition-colors">
-            Submit a Quote
+          <button className="w-fit flex items-center gap-2 bg-[#8BC34A] hover:bg-[#7CB342] text-white px-6 py-3 rounded-full font-medium transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 cursor-pointer">
+            {t("submitQuote")}
             <ArrowRight className="h-5 w-5" />
           </button>
 

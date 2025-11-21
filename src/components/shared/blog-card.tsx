@@ -18,9 +18,9 @@ function BlogCard({ title, description }: BlogCardProps) {
         </h3>
         <button
           type="button"
-          className="cursor-pointer w-[80px] h-[45px] flex items-center justify-center rounded-sm  bg-[#F6F6F6] "
+          className="cursor-pointer w-[80px] h-[45px] flex items-center justify-center rounded-sm bg-[#F6F6F6] transition-all duration-300 ease-in-out hover:scale-110 hover:bg-gray-200 active:scale-95"
         >
-          <Plus className="w-6 h-6 text-black " />
+          <Plus className="w-6 h-6 text-black" />
         </button>
       </div>
 

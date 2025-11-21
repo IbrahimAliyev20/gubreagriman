@@ -1,7 +1,11 @@
+"use client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function AboutSection() {
+  const t = useTranslations("buttons");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
       <div className="relative h-[250px] md:h-full order-first md:order-last">
@@ -41,10 +45,10 @@ export default function AboutSection() {
             edirik.
           </p>
 
-          <button className="inline-flex bg-white py-2 px-4 rounded-[20px] cursor-pointer items-center gap-2 text-black text-sm md:text-base font-bold hover:text-[#8BC34A] transition-colors">
-            About Us
+          <Link href="/about" className="inline-flex bg-white py-2 px-4 rounded-[20px] cursor-pointer items-center gap-2 text-black text-sm md:text-base font-bold hover:text-[#8BC34A] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95">
+            {t("aboutUs")}
             <ArrowRight className="h-5 w-5 md:h-6 md:w-6" />
-          </button>
+          </Link>
         </div>
       </div>
     </div>

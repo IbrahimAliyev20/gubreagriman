@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import Container from "../shared/container";
@@ -7,188 +9,339 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useTranslations } from "next-intl";
 
 export function Footer() {
+  const t = useTranslations("footer");
   return (
     <footer className="bg-white border-t border-gray-200">
       <Container>
-        <div className="hidden md:grid md:grid-cols-12 gap-12 py-16">
+        <div className="bg-[#FAFAFA] hidden md:grid md:grid-cols-12 gap-12 p-10 rounded-t-3xl">
           <div className="md:col-span-5">
             <div className="mb-6">
               <Image
-                src="/images/logo.svg" 
+                src="/images/logo.png"
                 alt="Agro Gubre"
-                width={180}
-                height={40}
+                width={1000}
+                height={1000}
                 className="h-10 w-auto"
                 priority
               />
             </div>
             <p className="text-sm text-gray-700 leading-relaxed max-w-md">
-              Мы — современная аграрная компания, предлагающая удобрения,
-              средства защиты растений и агросервисы. Наша цель — помогать
-              фермерам повышать урожайность, снижать затраты и сохранять
-              природный баланс.
+              Biz gübrələr, bitki mühafizəsi məhsulları və kənd təsərrüfatı
+              xidmətləri təklif edən müasir kənd təsərrüfatı şirkətiyik.
+              Məqsədimiz fermerlərə məhsuldarlığı artırmaqda, xərcləri
+              azaltmaqda və təbii tarazlığı qorumaqda kömək etməkdir.
             </p>
           </div>
 
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("company")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
+                  href="/"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
                 >
-                  Homepage
+                  {t("homepage")}
                 </Link>
               </li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">About us</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Products</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Services</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Career</Link></li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("products")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("services")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/career"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("career")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
-            <h3 className="font-semibold text-gray-900 mb-4">Socials</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("socials")}</h3>
             <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Instagram</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Facebook</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Twitter</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Linkedin</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Youtube</Link></li>
-              <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Tik Tok</Link></li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("instagram")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("facebook")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("twitter")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("linkedin")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("youtube")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                >
+                  {t("tiktok")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div className="md:col-span-3">
-            <h3 className="font-semibold text-gray-900 mb-4">Contacts</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("contacts")}</h3>
             <div className="space-y-3 text-sm">
               <p className="text-gray-600">
                 <Link
                   href="mailto:info@agrogubre.com"
-                  className="text-green-700 hover:text-green-800 transition-colors font-medium"
+                  className="text-green-700 hover:text-green-800 transition-all duration-300 ease-in-out cursor-pointer font-medium"
                 >
                   info@agrogubre.com
                 </Link>
               </p>
               <p className="text-gray-600">
                 <Link
-                  href="tel:+994122234567"
-                  className="text-green-700 hover:text-green-800 transition-colors font-medium"
+                  href="tel:*8899"
+                  className="text-[#4CA900] transition-all duration-300 ease-in-out cursor-pointer text-4xl font-bold hover:scale-105 active:scale-95"
                 >
-                  +994 12 123 45 67
+                  *8899
                 </Link>
               </p>
-              <div className="mt-6 pt-4 border-t border-gray-200">
+              <div className=" pt-2 border-t border-gray-200">
                 <h4 className="font-semibold text-gray-900 mb-3 text-lg leading-snug">
-                  Layihəniz Üçün Ən Uyğun Həlli Tapın
+                  {t("findSolution")}
                 </h4>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  Xidmətlərimiz, qiymət təklifi və əməkdaşlıq imkanları ilə
-                  maraqlanırsınız? Sadəcə formu doldurun – komandamız qısa
-                  zamanda sizinlə əlaqə saxlayacaq.
+                  {t("findSolutionDesc")}
                 </p>
               </div>
             </div>
           </div>
+          
         </div>
 
         <div className="block md:hidden py-10">
           <div className="mb-6">
             <div className="mb-4">
               <Image
-                src="/images/logo.svg"
+                src="/images/logo.png"
                 alt="Agro Gubre"
-                width={180}
-                height={40}
+                width={1000}
+                height={1000}
                 className="h-10 w-auto"
                 priority
               />
             </div>
             <p className="text-sm text-gray-700 leading-relaxed max-w-md">
-              Мы — современная аграрная компания, предлагающая удобрения,
-              средства защиты растений и агросервисы.
+              Biz gübrələr, bitki mühafizəsi məhsulları və kənd təsərrüfatı
+              xidmətləri təklif edən müasir kənd təsərrüfatı şirkətiyik.
+              Məqsədimiz fermerlərə məhsuldarlığı artırmaqda, xərcləri
+              azaltmaqda və təbii tarazlığı qorumaqda kömək etməkdir.
             </p>
           </div>
 
           <Accordion type="single" collapsible className="w-full">
-            
             <AccordionItem value="company" className="border-b border-gray-200">
               <AccordionTrigger className="font-semibold text-gray-900 py-4">
-                Company
+                {t("company")}
               </AccordionTrigger>
               <AccordionContent className="pb-4">
                 <ul className="space-y-3 pl-2">
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Homepage</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">About us</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Products</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Services</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Career</Link></li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="socials" className="border-b border-gray-200">
-              <AccordionTrigger className="font-semibold text-gray-900 py-4">
-                Socials
-              </AccordionTrigger>
-              <AccordionContent className="pb-4">
-                <ul className="space-y-3 pl-2">
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Instagram</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Facebook</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Twitter</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Linkedin</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Youtube</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 transition-colors text-sm">Tik Tok</Link></li>
+                  <li>
+                    <Link
+                      href="/"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("homepage")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/about"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("about")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/products"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("products")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/services"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("services")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/career"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("career")}
+                    </Link>
+                  </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="contacts" className="border-b border-gray-200">
+            <AccordionItem value="socials" className="border-b border-gray-200">
               <AccordionTrigger className="font-semibold text-gray-900 py-4">
-                Contacts
+                {t("socials")}
+              </AccordionTrigger>
+              <AccordionContent className="pb-4">
+                <ul className="space-y-3 pl-2">
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("instagram")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("facebook")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("twitter")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("linkedin")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("youtube")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#"
+                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                    >
+                      {t("tiktok")}
+                    </Link>
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="contacts"
+              className="border-b border-gray-200"
+            >
+              <AccordionTrigger className="font-semibold text-gray-900 py-4">
+                {t("contacts")}
               </AccordionTrigger>
               <AccordionContent className="pb-4 pl-2">
                 <div className="space-y-3 text-sm">
                   <p className="text-gray-600">
                     <Link
                       href="mailto:info@agrogubre.com"
-                      className="text-green-700 hover:text-green-800 transition-colors font-medium"
+                      className="text-green-700 hover:text-green-800 transition-all duration-300 ease-in-out cursor-pointer font-medium"
                     >
                       info@agrogubre.com
                     </Link>
                   </p>
                   <p className="text-gray-600">
                     <Link
-                      href="tel:+994122234567"
-                      className="text-green-700 hover:text-green-800 transition-colors font-medium"
+                      href="tel:*8899"
+                      className="text-[#4CA900] transition-all duration-300 ease-in-out cursor-pointer text-4xl font-bold hover:scale-105 active:scale-95"
                     >
-                      +994 12 123 45 67
+                      *8899
                     </Link>
                   </p>
                 </div>
               </AccordionContent>
             </AccordionItem>
-
           </Accordion>
         </div>
 
-        <div className="border-t border-gray-200 py-6">
+        <div className="border-t bg-[#FAFAFA] p-10 border-gray-200 py-2 rounded-b-3xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-            <p>© 2025 AGRIMAN Consulting MMC. Bütün hüquqlar qorunur.</p>
+            <p>{t("allRightsReserved")}</p>
             <div className="flex flex-col items-center gap-2 md:flex-row md:gap-3">
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Terms & Conditions
+              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+                {t("termsConditions")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Privacy Policy
+              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+                {t("privacyPolicy")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
-              <Link href="#" className="hover:text-gray-900 transition-colors">
-                Agreement
+              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+                {t("agreement")}
               </Link>
             </div>
           </div>
