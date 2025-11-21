@@ -1,0 +1,13 @@
+{
+    "home": {
+        "title": "HR-vakansiyaları",
+        "description": "HR-vakansiyaları"
+    },
+   "navigation": {
+    "about": "Haqqımızda",
+    "products": "Məhsullar",
+    "services": "Xidmətlər",
+    "career": "Karyera",
+    "contact": "Əlaqə saxlayın" 
+  }
+}
