@@ -21,7 +21,7 @@ export default function ContactForm() {
             ofisi və texniki işçiləri ilə əlaqə saxlayın
           </h2>
           <p className="text-white text-lg md:text-xl">
-            <span className="font-bold">*8899</span> <br />
+            <span className="text-2xl md:text-4xl font-bold">*8899</span> <br />
             E-poçt: info@agrogubre.com
           </p>
         </div>

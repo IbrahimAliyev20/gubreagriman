@@ -8,10 +8,9 @@ export default function ProductBanner() {
         
         <div className="col-span-2 flex flex-col justify-center px-4 py-5 md:py-20 md:px-8">
           <h1 className="text-xl md:text-4xl font-bold text-black leading-tight mb-2 md:mb-3">
-            Современные удобрения
-          </h1>
-          <p className="text-lg md:text-2xl text-black leading-relaxed">
-            для стабильного роста
+          Davamlı İnkişaf üçün           </h1>
+          <p className="text-xl md:text-4xl font-bold text-black leading-relaxed">
+          Müasir Gübrələr
           </p>
         </div>
 
