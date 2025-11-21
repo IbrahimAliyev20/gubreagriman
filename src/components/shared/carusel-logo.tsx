@@ -2,19 +2,12 @@
 
 import { useEffect, useState } from "react";
 import LogoLoop from "../LogoLoop";
+import { usePartners } from "@/services/Home/queires";
 
-
-const imageLogos = [
-  { src: "/carusellogo/AGC.png", alt: "Company 1", href: "https://company1.com" },
-  { src: "/carusellogo/AGRIMAN.png", alt: "Company 2", href: "https://company2.com" },
-  { src: "/carusellogo/agro.png", alt: "Company 3", href: "https://company3.com" },
-  { src: "/carusellogo/GUBRE.png", alt: "Company 3", href: "https://company3.com" },
-  { src: "/carusellogo/Logo.png", alt: "Company 3", href: "https://company3.com" },
-  { src: "/carusellogo/logos.png", alt: "Company 3", href: "https://company3.com" },
-  { src: "/carusellogo/LOTYPE.png", alt: "Company 3", href: "https://company3.com" },
-];
 
 export default function CaruselLogo() {
+  const { data: partnersData } = usePartners();
+  const imageLogos = partnersData?.data.map((partner) => ({ src: partner.image, alt: partner.image, href: partner.link }));
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -30,7 +23,7 @@ export default function CaruselLogo() {
   return (
     <div className="h-[60px] md:h-[100px] relative overflow-hidden">
       <LogoLoop
-        logos={imageLogos}
+        logos={imageLogos || []}
         speed={80}
         direction="left"
         logoHeight={isMobile ? 28 : 42}
