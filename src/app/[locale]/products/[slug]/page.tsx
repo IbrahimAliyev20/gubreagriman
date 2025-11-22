@@ -5,6 +5,7 @@ import ProductTabsSec from "@/components/products/ProductTabsSec";
 import ProductBanner from "@/components/products/ProductBanner";
 import { getProductDetail } from "@/services/Product/api";
 import { ApiResponse, ProductDetail } from "@/types/types";
+import CaruselLogo from "@/components/shared/carusel-logo";
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -28,6 +29,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         <div className="flex flex-col gap-10">
           <ProductBanner />
           <ProductTabsSec selectedProduct={product} />
+
+          <CaruselLogo />
         </div>
       </Container>
     );

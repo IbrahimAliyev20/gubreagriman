@@ -20,18 +20,17 @@ export default function ProductCard({
   product: ProductCardProps;
 }) {
   const t = useTranslations("buttons");
-  const categoryTextColor = "text-gray-400"; 
-  const productNameColor = "text-black"; 
-  const viewButtonBg = "bg-[#8BC34A]"; 
-  const viewButtonHoverBg = "hover:bg-[#7CB342]";
-  const viewButtonActiveBg = "active:bg-[#689F38]";
 
-  // Validate and get image URL - check if it's a valid non-empty string
+  // Rənglər
+  const cardBgColor = "bg-[#F2F4F6]";
+  const whiteBoxColor = "bg-white";
+  const buttonBaseColor = "bg-[#84BD5A]";
+  const buttonHoverColor = "hover:bg-[#76aa50]";
+  
   const isValidImageUrl = (url: string | undefined | null): boolean => {
     if (!url || typeof url !== 'string') return false;
     const trimmed = url.trim();
     if (trimmed === '' || trimmed === 'null' || trimmed === 'undefined') return false;
-    // Check if it's a relative path (starts with /) or absolute URL
     return trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://');
   };
 
@@ -40,52 +39,60 @@ export default function ProductCard({
     : "/images/product.png";
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-100">
-      <div className="relative flex items-center justify-center bg-white min-h-[180px] max-h-[250px] p-4">
+    // MAIN CARD: p-1 verildi (çərçivə nazikləşdi)
+    <div className={`w-full h-full flex flex-col ${cardBgColor} rounded-[32px] p-1 group transition-all duration-300`}>
+      
+      {/* 1. Şəkil Hissəsi */}
+      <div className="relative flex items-center justify-center h-64 w-full p-2">
         {isValidImageUrl(product.image) ? (
           <Image
             src={imageSrc}
             alt={product.name}
-            width={300} 
-            height={300} 
-            className="w-auto h-auto max-w-full max-h-[200px] object-contain"
+            fill
+            className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full max-h-[200px] min-h-[180px] bg-gray-100 flex items-center justify-center rounded-lg">
-            <span className="text-gray-400">No Image</span>
+          <div className="w-full h-full flex items-center justify-center opacity-50">
+            <span className="text-gray-400 text-sm">No Image</span>
           </div>
         )}
-    <div className="absolute bg-white bottom-0 left-0 right-0 mx-0.5 px-5  py-2 rounded-t-2xl   flex flex-col flex-grow">
-        <p className={`text-sm ${categoryTextColor} mb-2 font-normal leading-relaxed`}>
-          {product.category}
-        </p>
-
-        <h3 className={`text-xl font-bold ${productNameColor} flex-grow leading-tight`}>
-          {product.name}
-        </h3>
-
-    
-      </div>
       </div>
 
-  
-      {product.slug ? (
-        <Link
-          href={`/products/${product.slug}`}
-          className={` w-full flex items-center justify-between gap-2 rounded-full  ${viewButtonBg} ${viewButtonHoverBg} ${viewButtonActiveBg} text-white px-4 py-2  text-sm font-medium transition-all duration-300 ease-in-out hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer`}
-        >
-          {t("viewProduct")}
-          <ArrowRight className="h-6 w-6" />
-        </Link>
-      ) : (
-        <button
-          disabled
-          className={` w-full flex items-center justify-between gap-2 rounded-full bg-gray-400 text-white px-4 py-2  text-sm font-medium cursor-not-allowed`}
-        >
-          {t("viewProduct")}
-          <ArrowRight className="h-6 w-6" />
-        </button>
-      )} 
+      {/* 2. Ağ Blok */}
+      {/* overflow-hidden: Düymə kənarlardan çıxmasın deyə vacibdir */}
+      {/* rounded-[20px]: Bir az azaldıldı */}
+      <div className={`${whiteBoxColor} rounded-[20px] mt-auto flex flex-col shadow-sm overflow-hidden`}>
+        
+        {/* Yazı Hissəsi (Padding yalnız bura verilir) */}
+        <div className="p-5 pb-3">
+          <p className="text-gray-400 text-sm font-medium mb-1">
+            {product.category}
+          </p>
+          <h3 className="text-black text-xl font-bold leading-tight line-clamp-2">
+            {product.name}
+          </h3>
+        </div>
+
+        {product.slug ? (
+          <Link
+            href={`/products/${product.slug}`}
+            className={`w-full flex items-center justify-between rounded-full ${buttonBaseColor} ${buttonHoverColor} text-white py-2 px-5 text-sm font-semibold transition-all duration-200 hover:bg-opacity-90`}
+          >
+            <span>{t("viewProduct")}</span>
+            <ArrowRight className="h-5 w-5" />
+          </Link>
+        ) : (
+          <button
+            disabled
+            className="w-full flex items-center justify-between rounded-full bg-gray-300 text-white py-2 px-5 text-sm font-semibold cursor-not-allowed"
+          >
+            <span>{t("viewProduct")}</span>
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+      
     </div>
   );
 }

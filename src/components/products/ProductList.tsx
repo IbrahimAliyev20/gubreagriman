@@ -56,7 +56,7 @@ export default function ProductList({ categorySlug }: ProductListProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[500px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
       {products.map((product: CategoryProducts, index: number) => {
         // Validate image URL - check if it's a valid non-empty string
         const isValidImageUrl = (url: string | undefined | null): boolean => {

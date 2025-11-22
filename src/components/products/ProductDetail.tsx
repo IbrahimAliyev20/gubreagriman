@@ -3,8 +3,10 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { ProductDetail } from "@/types/types";
+import { ProductDetail, CategoryProducts } from "@/types/types";
 import { useTranslations } from "next-intl";
+import { useRelatedProducts } from "@/services/Product/queries";
+import ProductCard from "./ProductCard";
 
 interface ProductDetailProps {
   product: ProductDetail;
@@ -12,6 +14,12 @@ interface ProductDetailProps {
 
 export default function ProductDetailComponent({ product }: ProductDetailProps) {
   const t = useTranslations("buttons");
+  const { data: relatedProductsData, isLoading: isLoadingRelated } = useRelatedProducts(product.slug);
+
+  // Rənglər (Şəkilə əsasən)
+  const grayBgColor = "bg-[#F2F4F6]";
+  const brandGreen = "bg-[#84BD5A]";
+  const brandGreenHover = "hover:bg-[#76aa50]";
   
   // Validate image URL
   const isValidImageUrl = (url: string | undefined | null): boolean => {
@@ -27,55 +35,74 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
     ? product.thumb_image!.trim()
     : "/images/product.png";
 
+  // Extract related products
+  let relatedProducts: CategoryProducts[] = [];
+  if (relatedProductsData) {
+    if (relatedProductsData.data && Array.isArray(relatedProductsData.data)) {
+      relatedProducts = relatedProductsData.data;
+    }
+  }
+
   return (
     <div className="w-full">
-      {/* Product Image and Info Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        {/* Product Image */}
-        <div className="flex items-center justify-center bg-white rounded-xl p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-10 mb-16">
+        
+        <div className={`lg:col-span-2 flex items-center justify-center ${grayBgColor} rounded-[20px] p-8 h-full min-h-[450px] relative`}>
           {isValidImageUrl(product.image) || isValidImageUrl(product.thumb_image) ? (
             <Image
               src={imageSrc}
               alt={product.name}
-              width={400}
-              height={500}
-              className="w-auto h-auto max-w-[300px] max-h-[400px] object-contain"
+              fill
+              className="w-full h-full object-contain  mix-blend-multiply hover:scale-105 transition-transform duration-500 rounded-[20px]"
             />
           ) : (
-            <div className="w-full max-w-[300px] min-h-[300px] bg-gray-100 flex items-center justify-center rounded-xl">
-              <span className="text-gray-400">No Image</span>
+            <div className="flex items-center justify-center text-gray-400">
+              <span className="text-xl">No Image</span>
             </div>
           )}
         </div>
 
-        {/* Product Info */}
-        <div className="flex flex-col gap-6">
+        {/* 2. SAĞ TƏRƏF - Məlumatlar (4 kolon) */}
+        <div className="lg:col-span-4 flex flex-col">
+          {/* Kateqoriya: Boz, Uppercase, Kiçik */}
           {product.parent_category && (
-            <p className="text-sm text-gray-500">{`Kateqoriya: ${product.parent_category}`}</p>
+            <p className="text-sm text-gray-400 uppercase tracking-wide font-medium mb-2">
+              {`Kateqoriya: ${product.parent_category}`}
+            </p>
           )}
-          <h1 className="text-3xl md:text-4xl font-bold text-black">{product.name}</h1>
           
-          <button className="w-fit flex items-center gap-2 bg-[#8BC34A] hover:bg-[#7CB342] text-white px-6 py-3 rounded-full font-medium transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 cursor-pointer">
-            {t("submitQuote")}
+          {/* Məhsul Adı: Böyük, Qara, Qalın */}
+          <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight mb-6">
+            {product.name}
+          </h1>
+          
+          {/* Button: Yaşıl, Oval, Ox işarəsi ilə */}
+          <button className={`w-fit cursor-pointer flex items-center gap-2 ${brandGreen} ${brandGreenHover} text-white px-5 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-md active:scale-95 mb-10`}>
+            <span>{t("submitQuote")}</span>
             <ArrowRight className="h-5 w-5" />
           </button>
 
-          {/* Attributes */}
+          {/* Xüsusiyyətlər Cədvəli (Key characteristics) */}
           {product.attributes && product.attributes.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-500 mb-4">Key characteristics</p>
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <table className="w-full">
+            <div>
+              <p className="text-gray-400 mb-3 text-lg">Key characteristics</p>
+              
+              {/* Cədvəl Dizaynı: Tam Grid (Borderli) */}
+              <div className="border border-gray-200 w-full">
+                <table className="w-full border-collapse">
                   <tbody>
                     {product.attributes.map((attr, index) => (
                       <tr
                         key={index}
-                        className={index < product.attributes.length - 1 ? "border-b border-gray-200" : ""}
+                        // Hər sətirin altında xətt (sonuncu xaric)
+                        className="border-b border-gray-200 last:border-b-0"
                       >
-                        <td className="px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 w-1/3">
+                        {/* Sol Sütun: Boz border sağda, Padding, Normal Font */}
+                        <td className="border-r border-gray-200 px-4 py-3 text-gray-600 w-1/3 align-middle text-sm md:text-base">
                           {attr.attribute_key}
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-900">
+                        {/* Sağ Sütun: Qara, Qalın Font */}
+                        <td className="px-4 py-3 text-black font-bold align-middle text-sm md:text-base">
                           {attr.attribute_value}
                         </td>
                       </tr>
@@ -88,66 +115,45 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
         </div>
       </div>
 
-      {/* Product Description Section */}
+      {/* --- ALT HİSSƏLƏR (Description & Usage) --- */}
       {product.description && (
-        <div className="w-full mb-8">
-          <div className="px-6 py-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-300 w-fit mb-4">
-            Product Description
+        <div className="w-full mb-10">
+          <div className="inline-block px-6 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-600 mb-4">
+          Məhsul təsviri
           </div>
-          <div className="border-t-2 border-[#8BC34A] pt-6">
+          <div className="border-t-4 border-[#8BC34A] pt-6">
             <div 
-              className="text-gray-700 leading-relaxed"
+              className="text-gray-700 leading-relaxed space-y-4"
               dangerouslySetInnerHTML={{ __html: product.description }}
             />
           </div>
         </div>
       )}
 
-      {/* Usage Table Section */}
+      {/* Usage Table */}
       {product.usage && product.usage.length > 0 && (
-        <div className="w-full">
-          <div className="px-6 py-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-300 w-fit mb-4">
+        <div className="w-full mb-12">
+          <div className="inline-block px-6 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-600 mb-4">
             İstifadə Cədvəli
           </div>
-          <div className="border-t-2 border-[#8BC34A] pt-6">
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
+          <div className="border-t-4 border-[#8BC34A] pt-6">
+            <div className="overflow-x-auto rounded-lg border border-gray-100">
+              <table className="w-full border-collapse min-w-[600px]">
                 <thead>
                   <tr className="bg-[#8BC34A] text-white">
-                    <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                      Bitki adı
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                    Zərərverici Orqanizmin Adı
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                    Tətbiq Dozası
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                    Son tətbiq və məhsul yığımı arasındakı vaxt
-                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Bitki adı</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Zərərverici Orqanizmin Adı</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Tətbiq Dozası</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">Son tətbiq və məhsul yığımı arasındakı vaxt</th>
                   </tr>
                 </thead>
                 <tbody>
                   {product.usage.map((row, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      } border-b border-gray-200`}
-                    >
-                      <td className="px-4 py-3 text-sm text-gray-900 border border-gray-200">
-                        {row.plant_name}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700 border border-gray-200">
-                        {row.pest_name}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700 border border-gray-200">
-                        {row.dosage}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700 border border-gray-200">
-                        {row.pre_harvest_interval}
-                      </td>
+                    <tr key={index} className={`border-b border-gray-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
+                      <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-100">{row.plant_name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-700 border-r border-gray-100">{row.pest_name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-700 border-r border-gray-100">{row.dosage}</td>
+                      <td className="px-4 py-3 text-sm text-gray-700">{row.pre_harvest_interval}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -156,7 +162,38 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
           </div>
         </div>
       )}
+
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <div className="w-full mt-16">
+          <div className="mb-8">
+            <div className="w-full h-px bg-gray-200 mb-6"></div>
+            <h2 className="text-2xl font-bold text-black">Related products</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((relatedProduct: CategoryProducts, index: number) => {
+               const isValid = (url: string | undefined | null) => 
+                 url && typeof url === 'string' && url.trim() !== '' && !url.includes('null');
+               
+               const imageUrl = isValid(relatedProduct.image) ? relatedProduct.image : 
+                                isValid(relatedProduct.thumb_image) ? relatedProduct.thumb_image : undefined;
+
+               return (
+                <ProductCard
+                  key={relatedProduct.slug || index}
+                  product={{
+                    id: index,
+                    name: relatedProduct.name,
+                    category: relatedProduct.category,
+                    image: imageUrl,
+                    slug: relatedProduct.slug,
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-

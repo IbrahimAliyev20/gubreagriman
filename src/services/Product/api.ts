@@ -30,7 +30,7 @@ const getProductDetail = async (slug: string) => {
 };
 
 const getRelatedProducts = async (slug: string) => {
-  const response = await get<ApiResponse<ProductDetail>>(
+  const response = await get<ApiResponse<CategoryProducts[]>>(
     `/related-products/${slug}`
   );
   return response;

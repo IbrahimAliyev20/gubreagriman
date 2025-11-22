@@ -38,9 +38,28 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
   const [mainTab, setMainTab] = useState<string>("");
   const [subTab, setSubTab] = useState<string>("");
   const [accordionStates, setAccordionStates] = useState<Record<string, boolean>>({});
+  const [showProductDetail, setShowProductDetail] = useState<boolean>(!!selectedProduct);
 
   useEffect(() => {
-    if (categoriesData?.data && categoriesData.data.length > 0) {
+    if (selectedProduct) {
+      setShowProductDetail(true);
+      // Product'ın category'sine göre tab'ı ayarla
+      if (categoriesData?.data && selectedProduct.parent_category) {
+        const matchingCategory = categoriesData.data.find(
+          (cat) => cat.name.toLowerCase() === selectedProduct.parent_category?.toLowerCase()
+        );
+        if (matchingCategory) {
+          setMainTab(matchingCategory.slug);
+          setAccordionStates({ [matchingCategory.slug]: true });
+          
+          // Sub category varsa onu da ayarla
+          if (matchingCategory.sub_categories && matchingCategory.sub_categories.length > 0) {
+            // İlk sub category'yi seç
+            setSubTab(matchingCategory.sub_categories[0].slug);
+          }
+        }
+      }
+    } else if (categoriesData?.data && categoriesData.data.length > 0) {
       const firstCategory = categoriesData.data[0];
       setMainTab(firstCategory.slug);
       setAccordionStates({ [firstCategory.slug]: true });
@@ -51,10 +70,11 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
         setSubTab(firstSubCategory.slug);
       }
     }
-  }, [categoriesData]);
+  }, [categoriesData, selectedProduct]);
 
   const handleMainTabChange = (value: string) => {
     setMainTab(value);
+    setShowProductDetail(false); // Tab değiştiğinde product detail'i gizle
     const category = categoriesData?.data.find((cat) => cat.slug === value);
     if (category?.sub_categories && category.sub_categories.length > 0) {
       setSubTab(category.sub_categories[0].slug);
@@ -88,8 +108,8 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
           className="w-full max-md:orientation-horizontal"
         >
           <div className="grid grid-cols-1 lg:grid-cols-8 lg:gap-8 items-start">
-            <div className="col-span-2 rounded-xl w-full  bg-white  max-md:fixed  border border-[#CCCCCC]">
-              <TabsList className="w-full h-auto flex flex-col items-start justify-start p-4 rounded-xl bg-white max-md:flex-row max-md:items-center max-md:justify-between max-md:overflow-x-auto max-md:p-0 max-md:rounded-none max-md:border-t max-md:h-12 gap-1">
+            <div className="col-span-2 rounded-xl w-full bg-white max-md:fixed max-md:top-0 max-md:left-0 max-md:right-0 max-md:z-50 lg:sticky lg:top-4 lg:self-start border border-[#CCCCCC]">
+              <TabsList className="w-full h-auto flex flex-col items-start justify-start p-4 rounded-xl bg-white max-md:flex-row max-md:items-center max-md:justify-between max-md:overflow-x-auto max-md:p-0 max-md:rounded-none max-md:border-t max-md:h-12 gap-1 max-h-[calc(100vh-2rem)] overflow-y-auto">
                 {categoriesData.data.map((category) => {
                   const isAccordionOpen = accordionStates[category.slug] ?? (category.slug === mainTab);
                   const hasSubCategories = category.sub_categories && category.sub_categories.length > 0;
@@ -124,7 +144,10 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
                             {category.sub_categories?.map((subCategory) => (
                               <button
                                 key={subCategory.slug}
-                                onClick={() => setSubTab(subCategory.slug)}
+                                onClick={() => {
+                                  setSubTab(subCategory.slug);
+                                  setShowProductDetail(false); // Sub tab değiştiğinde product detail'i gizle
+                                }}
                                 className={`w-full text-left px-4 py-2 text-sm rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 active:scale-95 ${
                                   subTab === subCategory.slug
                                     ? "bg-[#8BC34A] text-white font-medium"
@@ -144,25 +167,25 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
             </div>
 
             <div className="col-span-6">
-              {categoriesData.data.map((category) => {
-                const isActiveTab = category.slug === mainTab;
-                const currentCategory = categoriesData.data.find((cat) => cat.slug === mainTab);
-                const isSubTabValid = currentCategory?.sub_categories?.some((sub) => sub.slug === subTab);
-                const SubCategoryComponent = subTab && isSubTabValid ? subCategoryComponents[subTab] : null;
-                
-                return (
-                  <TabsContent key={category.slug} value={category.slug}>
-                    {selectedProduct ? (
-                      <ProductDetailComponent product={selectedProduct} />
-                    ) : (
-                      isActiveTab && SubCategoryComponent && subTab && (() => {
+              {showProductDetail && selectedProduct ? (
+                <ProductDetailComponent product={selectedProduct} />
+              ) : (
+                categoriesData.data.map((category) => {
+                  const isActiveTab = category.slug === mainTab;
+                  const currentCategory = categoriesData.data.find((cat) => cat.slug === mainTab);
+                  const isSubTabValid = currentCategory?.sub_categories?.some((sub) => sub.slug === subTab);
+                  const SubCategoryComponent = subTab && isSubTabValid ? subCategoryComponents[subTab] : null;
+                  
+                  return (
+                    <TabsContent key={category.slug} value={category.slug}>
+                      {isActiveTab && SubCategoryComponent && subTab && (() => {
                         console.log("ProductTabsSec - Rendering SubCategoryComponent with slug:", subTab);
                         return <SubCategoryComponent categorySlug={subTab} />;
-                      })()
-                    )}
-                  </TabsContent>
-                );
-              })}
+                      })()}
+                    </TabsContent>
+                  );
+                })
+              )}
             </div>
           </div>
         </Tabs>
