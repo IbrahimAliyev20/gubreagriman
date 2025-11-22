@@ -1,14 +1,14 @@
-"use client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useBanners } from "@/services/Home/queires";
-import { useTranslations } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getBanners } from "@/services/Home/server-api";
 
-export default function HeroBanner() {
-  const { data: banner } = useBanners("home");
+export default async function HeroBanner() {
+  const locale = await getLocale();
+  const banner = await getBanners("home", locale);
   const bannerData = banner?.data;
-  const t = useTranslations("buttons");
+  const t = await getTranslations("buttons");
 
   return (
     <div

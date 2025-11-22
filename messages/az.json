@@ -41,5 +41,13 @@
     "send": "Göndər",
     "uploadCV": "CV-ni Yüklə",
     "contactUsShort": "Bizimlə əlaqə"
+  },
+  "error": {
+    "title": "Bir xəta baş verdi",
+    "description": "Təəssüf ki, gözlənilməz bir xəta baş verdi. Zəhmət olmasa, bir az sonra yenidən cəhd edin.",
+    "tryAgain": "Yenidən cəhd et",
+    "goHome": "Ana səhifəyə qayıt",
+    "errorDetails": "Xəta məlumatları",
+    "stackTrace": "Stack trace"
   }
 }

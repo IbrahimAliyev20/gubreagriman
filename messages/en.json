@@ -41,5 +41,13 @@
     "send": "Send",
     "uploadCV": "Upload CV",
     "contactUsShort": "Contact us"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "Unfortunately, an unexpected error occurred. Please try again in a moment.",
+    "tryAgain": "Try again",
+    "goHome": "Go to homepage",
+    "errorDetails": "Error details",
+    "stackTrace": "Stack trace"
   }
 }

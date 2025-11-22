@@ -8,30 +8,31 @@ import {
   ProductCategoryResponse,
 } from "@/types/types";
 
-const getProductCategories = async () => {
+const getProductCategories = async (locale?: string) => {
   const response = await get<ApiResponse<ProductCategoryResponse[]>>(
-    "/categories"
+    "/categories",
+    { locale }
   );
   return response;
 };
 
-const getCategoryProducts = async (category_slug: string) => {
-  console.log("API - getCategoryProducts called with slug:", category_slug);
+const getCategoryProducts = async (category_slug: string, locale?: string) => {
   const response = await get<ApiResponse<PaginatedResponse<CategoryProducts>>>(
-    `/category-products/${category_slug}`
+    `/category-products/${category_slug}`,
+    { locale }
   );
-  console.log("API - getCategoryProducts response:", response);
   return response;
 };
 
-const getProductDetail = async (slug: string) => {
-  const response = await get<ApiResponse<ProductDetail>>(`/product/${slug}`);
+const getProductDetail = async (slug: string, locale?: string) => {
+  const response = await get<ApiResponse<ProductDetail>>(`/product/${slug}`, { locale });
   return response;
 };
 
-const getRelatedProducts = async (slug: string) => {
+const getRelatedProducts = async (slug: string, locale?: string) => {
   const response = await get<ApiResponse<CategoryProducts[]>>(
-    `/related-products/${slug}`
+    `/related-products/${slug}`,
+    { locale }
   );
   return response;
 };

@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import { useParams } from "next/navigation";
 import { Tabs } from "@/components/ui/tabs";
-import { useProductCategories } from "@/services/Product/queries";
+import { useProductCategories, useProductDetail } from "@/services/Product/queries";
 import { ProductDetail } from "@/types/types";
 import { useMobileDetection } from "@/hooks/useMobileDetection";
 import { useProductTabs } from "@/hooks/useProductTabs";
@@ -14,7 +15,17 @@ interface ProductTabsSecProps {
   selectedProduct?: ProductDetail | null;
 }
 
-const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
+const ProductTabsSec = ({ selectedProduct: propSelectedProduct = null }: ProductTabsSecProps) => {
+  const params = useParams();
+  const slug = params?.slug as string | undefined;
+  
+  // If slug exists in URL (product detail page), fetch product from query
+  const { data: productDetailData } = useProductDetail(slug || "");
+  const querySelectedProduct = productDetailData?.data || null;
+  
+  // Use prop if provided (backward compatibility), otherwise use query result
+  const selectedProduct = propSelectedProduct || querySelectedProduct;
+  
   const { data: categoriesData } = useProductCategories();
   const isMobile = useMobileDetection();
   

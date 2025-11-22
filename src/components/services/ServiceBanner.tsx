@@ -1,13 +1,59 @@
 'use client';
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, AlertCircle } from "lucide-react";
 import Image from "next/image";
-import { useBanners } from "@/services/Home/queires";
+import { useBanners } from "@/services/Home/queries";
 import { useTranslations } from "next-intl";
 
 export default function ServiceBanner() {
-  const { data: banner } = useBanners("service");
+  const { data: banner, isLoading, isError, error } = useBanners("service");
   const bannerData = banner?.data;
   const t = useTranslations("buttons");
+
+  if (isLoading) {
+    return (
+      <div className="relative rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-[#BDBDBD] animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-8">
+          <div className="col-span-2 flex flex-col md:justify-between px-4 py-5 md:py-20 md:px-8 gap-4 md:gap-0">
+            <div className="h-6 w-32 bg-gray-200 rounded"></div>
+            <div className="h-12 w-48 md:w-64 bg-gray-200 rounded"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded-full"></div>
+            <div className="space-y-2">
+              <div className="h-4 w-full bg-gray-200 rounded"></div>
+              <div className="h-4 w-full bg-gray-200 rounded"></div>
+              <div className="h-4 w-3/4 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+          <div className="col-span-3 flex items-center justify-center md:justify-end -mt-2 md:mt-0">
+            <div className="w-full h-[300px] md:h-[400px] bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="relative rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-[#BDBDBD] min-h-[400px] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-center px-4">
+          <div className="bg-red-100 rounded-full p-4">
+            <AlertCircle className="w-10 h-10 text-red-600" />
+          </div>
+          <div>
+            <p className="text-lg font-semibold text-gray-900">Xəta baş verdi</p>
+            <p className="text-sm text-gray-600 mt-2">
+              Banner məlumatları yüklənərkən xəta baş verdi.
+            </p>
+            {process.env.NODE_ENV === 'development' && error && (
+              <p className="text-xs text-red-500 mt-2">
+                {(error as Error)?.message || "Naməlum xəta"}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-[#BDBDBD]"

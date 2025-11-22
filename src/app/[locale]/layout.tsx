@@ -8,6 +8,7 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { Toaster } from "sonner";
 import { Header } from "@/components/navigation/header";
 import { Footer } from "@/components/navigation/footer";
+import { ErrorBoundary } from "@/components/shared/error-boundary";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -35,12 +36,14 @@ export default async function RootLayout({
 
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
-            <div className="min-h-screen">
-              <Header />
-              {children}
-              <Footer />
-            </div>
-            <Toaster position="top-center" richColors />
+            <ErrorBoundary>
+              <div className="min-h-screen">
+                <Header />
+                {children}
+                <Footer />
+              </div>
+              <Toaster position="top-center" richColors />
+            </ErrorBoundary>
           </NextIntlClientProvider>
         </QueryProvider>
       </body>

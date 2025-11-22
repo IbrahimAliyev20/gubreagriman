@@ -50,13 +50,9 @@ const setupInterceptors = (): void => {
         if (configLocale) {
           config.headers['Accept-Language'] = getAcceptLanguageHeader(configLocale)
         } else {
-          const currentLocale = typeof window !== 'undefined' 
-            ? window.location.pathname.split('/')[1] 
-            : 'az'
-          
-          const validLocales = ['az', 'en', 'ru']
-          const locale = validLocales.includes(currentLocale) ? currentLocale : 'az'
-          config.headers['Accept-Language'] = getAcceptLanguageHeader(locale)
+          // Default to 'az' if no locale is provided
+          // Locale should be explicitly passed from components using useLocale()
+          config.headers['Accept-Language'] = getAcceptLanguageHeader('az')
         }
       }
 
@@ -78,8 +74,15 @@ const setupInterceptors = (): void => {
 
 setupInterceptors()
 
-export const get = async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-  const response = await client.get<T>(url, config)
+export const get = async <T>(url: string, config?: AxiosRequestConfig & { locale?: string }): Promise<T> => {
+  const requestConfig: AxiosRequestConfig = {
+    ...config,
+    params: {
+      ...config?.params,
+      ...(config?.locale && { locale: config.locale }),
+    },
+  }
+  const response = await client.get<T>(url, requestConfig)
   return response.data
 }
 

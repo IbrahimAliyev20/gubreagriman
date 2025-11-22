@@ -3,8 +3,15 @@ import { notFound } from "next/navigation";
 import Container from "@/components/shared/container";
 import ProductTabsSec from "@/components/products/ProductTabsSec";
 import ProductBanner from "@/components/products/ProductBanner";
-import { getProductDetail } from "@/services/Product/api";
-import { ApiResponse, ProductDetail } from "@/types/types";
+import { HydrationBoundary } from "@/providers/HydrationBoundary";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { 
+  getProductDetail, 
+  getRelatedProducts,
+  getProductCategories 
+} from "@/services/Product/server-api";
+import { getPartners } from "@/services/Home/server-api";
+import { queryKeys } from "@/lib/query-keys";
 import CaruselLogo from "@/components/shared/carusel-logo";
 
 interface ProductDetailPageProps {
@@ -14,27 +21,50 @@ interface ProductDetailPageProps {
 export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const queryClient = new QueryClient();
 
   try {
-    const response = await getProductDetail(slug);
+    // Prefetch all data needed for product detail page
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.products.detail(slug, locale),
+        queryFn: () => getProductDetail(slug, locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.products.related(slug, locale),
+        queryFn: () => getRelatedProducts(slug, locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.products.categories(locale),
+        queryFn: () => getProductCategories(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.partners(locale),
+        queryFn: () => getPartners(locale),
+      }),
+    ]);
 
-    // API response'unu kontrol et
-    if (!response || !response.data) {
+    // Check if product exists
+    const productData = queryClient.getQueryData<{ data: unknown }>(
+      queryKeys.products.detail(slug, locale)
+    );
+
+    if (!productData?.data) {
       notFound();
     }
 
-    const product: ProductDetail = response.data;
-
     return (
-      <Container>
-        <div className="flex flex-col gap-10">
-          <ProductBanner />
-          <ProductTabsSec selectedProduct={product} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Container>
+          <div className="flex flex-col gap-10">
+            <ProductBanner />
+            <ProductTabsSec />
 
-          <CaruselLogo />
-        </div>
-      </Container>
+            <CaruselLogo />
+          </div>
+        </Container>
+      </HydrationBoundary>
     );
   } catch (error) {
     console.error("Error fetching product:", error);
