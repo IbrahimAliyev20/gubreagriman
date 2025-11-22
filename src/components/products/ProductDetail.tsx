@@ -118,13 +118,13 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
                       Bitki adı
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                      Pest Organism Name
+                    Zərərverici Orqanizmin Adı
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                      Application Dosage
+                    Tətbiq Dozası
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold border border-white">
-                      Time Between Last Application and Harvest
+                    Son tətbiq və məhsul yığımı arasındakı vaxt
                     </th>
                   </tr>
                 </thead>

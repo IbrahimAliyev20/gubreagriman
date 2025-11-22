@@ -60,7 +60,7 @@ function OurServices() {
               src="/cardimages/sercard1.png"
               alt="Torpaq Alqı-Satqısı"
               fill
-              className="object-cover  scale-x-[-1] object-[center_35%] "
+              className="object-cover  scale-x-[-1] object-[center_0%] "
             />
           </div>
           
@@ -90,7 +90,7 @@ function OurServices() {
               src="/cardimages/sercard2.png"
               alt="Konsaltinq"
               fill
-              className="object-cover object-center"
+              className="object-cover object-[42%_35%]"
             />
           </div>
           
@@ -118,7 +118,7 @@ function OurServices() {
               src="/cardimages/sercard3.png"
               alt="Suvarma"
               fill
-              className="object-cover object-center"
+              className="object-cover object-[12%_35%]"
             />
           </div>
           
@@ -146,7 +146,7 @@ function OurServices() {
               src="/cardimages/sercard4.png"
               alt="Laborotoriya"
               fill
-              className="object-cover object-center scale-x-[-1]"
+              className="object-cover scale-x-[-1] object-[92%_1%]"
             />
           </div>
 
