@@ -4,83 +4,76 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import { useCategoryProducts } from "@/services/Product/queries";
 import { CategoryProducts } from "@/types/types";
+import { Loader2 } from "lucide-react";
 
 interface ProductListProps {
   categorySlug: string;
 }
 
 export default function ProductList({ categorySlug }: ProductListProps) {
-  const { data: productsData, isLoading, isError, error } = useCategoryProducts(categorySlug);
+  const { data: response, isLoading, isError, error } = useCategoryProducts(categorySlug);
 
-  // Debug: API response'unu kontrol et
-  console.log("ProductList - categorySlug:", categorySlug);
-  console.log("ProductList - productsData:", productsData);
-  console.log("ProductList - isError:", isError);
-  console.log("ProductList - error:", error);
+  // Normalize products from different possible API responses
+  const getProducts = (): CategoryProducts[] => {
+    if (!response) return [];
+
+    // Handle nested data structure: { data: { data: [...] } }
+    if (response.data?.data && Array.isArray(response.data.data)) {
+      return response.data.data;
+    }
+    // Handle { data: [...] }
+    if (response.data && Array.isArray(response.data)) {
+      return response.data;
+    }
+    // Handle direct array (rare)
+    if (Array.isArray(response)) {
+      return response;
+    }
+    return [];
+  };
+
+  const products = getProducts();
 
   if (isLoading) {
     return (
-      <div className="min-h-[500px] flex items-center justify-center">
-        <p className="text-gray-500">Yüklənir...</p>
+      <div className="flex flex-col items-center justify-center py-24">
+        <Loader2 className="w-10 h-10 animate-spin text-[#8BC34A]" />
+        <p className="mt-4 text-gray-500 text-lg">Məhsullar yüklənir...</p>
       </div>
     );
   }
 
-  // API response yapısını kontrol et - farklı formatlar olabilir
-  let products: CategoryProducts[] = [];
-  
-  if (productsData) {
-    // Format 1: ApiResponse<PaginatedResponse<CategoryProducts>>
-    if (productsData.data?.data && Array.isArray(productsData.data.data)) {
-      products = productsData.data.data;
-    }
-    // Format 2: Direkt PaginatedResponse<CategoryProducts>
-    else if (productsData.data && Array.isArray(productsData.data)) {
-      products = productsData.data;
-    }
-    // Format 3: Direkt array
-    else if (Array.isArray(productsData)) {
-      products = productsData;
-    }
-  }
-
   if (isError || products.length === 0) {
     return (
-      <div className="min-h-[500px] flex items-center justify-center">
-        <p className="text-gray-500">Məhsul tapılmadı</p>
-        {isError && error && (
-          <p className="text-red-500 text-sm mt-2">Xəta: {String(error)}</p>
-        )}
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="bg-gray-100 rounded-full p-6 mb-4">
+          <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+        </div>
+        <p className="text-xl font-medium text-gray-700">Məhsul tapılmadı</p>
+        <p className="text-gray-500 mt-2">Bu kateqoriyada hələ məhsul əlavə edilməyib.</p>
+        {isError && <p className="text-red-500 text-sm mt-4">Xəta: {(error as Error)?.message || "Naməlum xəta"}</p>}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
-      {products.map((product: CategoryProducts, index: number) => {
-        // Validate image URL - check if it's a valid non-empty string
-        const isValidImageUrl = (url: string | undefined | null): boolean => {
-          if (!url || typeof url !== 'string') return false;
-          const trimmed = url.trim();
-          if (trimmed === '' || trimmed === 'null' || trimmed === 'undefined') return false;
-          return trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://');
-        };
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
+      {products.map((product) => {
+        const validImage = (() => {
+          if (!product.image || product.image.trim() === "") return product.thumb_image;
+          if (!product.thumb_image || product.thumb_image.trim() === "") return product.image;
+          return product.image;
+        })();
 
-        // Try image first, then thumb_image, then fallback
-        const imageUrl = isValidImageUrl(product.image) 
-          ? product.image 
-          : isValidImageUrl(product.thumb_image)
-          ? product.thumb_image
-          : undefined; // Let ProductCard handle the fallback
-        
         return (
           <ProductCard
-            key={product.slug || index}
+            key={product.slug}
             product={{
-              id: index,
               name: product.name,
               category: product.category,
-              image: imageUrl,
+              image: validImage || "/placeholder-product.jpg", // fallback image
               slug: product.slug,
             }}
           />
@@ -89,4 +82,3 @@ export default function ProductList({ categorySlug }: ProductListProps) {
     </div>
   );
 }
-

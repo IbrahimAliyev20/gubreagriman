@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 interface ProductCardProps {
-  id: number;
+  id?: number;
   name: string;
   category: string;
   image?: string;

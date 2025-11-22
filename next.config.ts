@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'agriman.markup.az',
+        hostname: 'admin.agrogubre.com',
       },
     ],
   },

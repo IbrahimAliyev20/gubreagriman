@@ -11,12 +11,14 @@ interface ProductDetailPageProps {
   params: Promise<{ slug: string; locale: string }>;
 }
 
-export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+export default async function ProductDetailPage({
+  params,
+}: ProductDetailPageProps) {
   const { slug } = await params;
-  
+
   try {
     const response = await getProductDetail(slug);
-    
+
     // API response'unu kontrol et
     if (!response || !response.data) {
       notFound();
@@ -39,4 +41,3 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 }
-

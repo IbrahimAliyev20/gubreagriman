@@ -7,7 +7,7 @@ import React from 'react'
 export default function ProductsPage() {
   return (
     <Container>
-        <div className='flex flex-col gap-10'>
+        <div className='flex flex-col gap-16'>
 
        <ProductBanner />
        <ProductTabsSec />
