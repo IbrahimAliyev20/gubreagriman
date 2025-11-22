@@ -18,17 +18,23 @@ export default async function ServicesPage({
   const { locale } = await params;
   const queryClient = new QueryClient();
 
-  // Prefetch all data needed for services page
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.home.banners("service", locale),
-      queryFn: () => getBanners("service", locale),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.services.list(locale),
-      queryFn: () => getServices(locale),
-    }),
-  ]);
+  try {
+    // Prefetch all data needed for services page
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.banners("service", locale),
+        queryFn: () => getBanners("service", locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.services.list(locale),
+        queryFn: () => getServices(locale),
+      }),
+    ]);
+  } catch (error) {
+    // Log error but don't block page rendering
+    // Components will handle loading/error states
+    console.error("Error prefetching services page data:", error);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -96,7 +96,7 @@ function OurServices() {
     <div>
       <div className="flex flex-col md:grid md:grid-cols-9 md:grid-rows-6 gap-4 md:gap-4 h-auto md:h-[600px]">
         
-        <div className="md:col-span-3 md:row-span-4 p-6 md:p-10 flex flex-col justify-start md:justify-between gap-4 md:gap-4 rounded-[20px] ">
+        <div className="md:col-span-3 md:row-span-4 p-6 md:p-10 flex flex-col justify-start md:justify-between gap-4 md:gap-4 rounded-[20px]">
           <div>
             <p className="font-medium text-sm md:text-[16px] text-[#69B159]">
               Uğurunuz üçün müasir kənd təsərrüfatı xidmətləri

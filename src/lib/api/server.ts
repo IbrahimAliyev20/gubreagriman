@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios'
 import { getAcceptLanguageHeader } from '@/lib/utils'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -18,6 +18,25 @@ function createServerClient(locale?: string): AxiosInstance {
     headers,
   })
 
+  // Add response interceptor for error handling
+  client.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      // Log error in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Server API Error:', {
+          url: error.config?.url,
+          method: error.config?.method,
+          status: error.response?.status,
+          message: error.message,
+        })
+      }
+
+      // Re-throw the error so it can be handled by the caller
+      return Promise.reject(error)
+    }
+  )
+
   return client
 }
 
@@ -26,9 +45,20 @@ export const serverGet = async <T>(
   locale?: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  const client = createServerClient(locale)
-  const response = await client.get<T>(url, config)
-  return response.data
+  try {
+    const client = createServerClient(locale)
+    const response = await client.get<T>(url, config)
+    return response.data
+  } catch (error) {
+    // Re-throw with more context
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError
+      throw new Error(
+        `Failed to fetch ${url}: ${axiosError.response?.status || axiosError.message}`
+      )
+    }
+    throw error
+  }
 }
 
 export const serverPost = async <T>(
@@ -37,9 +67,20 @@ export const serverPost = async <T>(
   locale?: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  const client = createServerClient(locale)
-  const response = await client.post<T>(url, data, config)
-  return response.data
+  try {
+    const client = createServerClient(locale)
+    const response = await client.post<T>(url, data, config)
+    return response.data
+  } catch (error) {
+    // Re-throw with more context
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError
+      throw new Error(
+        `Failed to post to ${url}: ${axiosError.response?.status || axiosError.message}`
+      )
+    }
+    throw error
+  }
 }
 
 export const serverApiClient = {

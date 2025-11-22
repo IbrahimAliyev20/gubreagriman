@@ -19,21 +19,27 @@ export default async function Home({
   const { locale } = await params;
   const queryClient = new QueryClient();
 
-  // Prefetch all data needed for home page
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.home.banners("home", locale),
-      queryFn: () => getBanners("home", locale),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.services.list(locale),
-      queryFn: () => getServices(locale),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.home.partners(locale),
-      queryFn: () => getPartners(locale),
-    }),
-  ]);
+  try {
+    // Prefetch all data needed for home page
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.banners("home", locale),
+        queryFn: () => getBanners("home", locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.services.list(locale),
+        queryFn: () => getServices(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.partners(locale),
+        queryFn: () => getPartners(locale),
+      }),
+    ]);
+  } catch (error) {
+    // Log error but don't block page rendering
+    // Components will handle loading/error states
+    console.error("Error prefetching home page data:", error);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

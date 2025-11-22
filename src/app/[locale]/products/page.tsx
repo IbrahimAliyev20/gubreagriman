@@ -17,17 +17,23 @@ export default async function ProductsPage({
   const { locale } = await params;
   const queryClient = new QueryClient();
 
-  // Prefetch all data needed for products page
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.products.categories(locale),
-      queryFn: () => getProductCategories(locale),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.services.list(locale),
-      queryFn: () => getServices(locale),
-    }),
-  ]);
+  try {
+    // Prefetch all data needed for products page
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.products.categories(locale),
+        queryFn: () => getProductCategories(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.services.list(locale),
+        queryFn: () => getServices(locale),
+      }),
+    ]);
+  } catch (error) {
+    // Log error but don't block page rendering
+    // Components will handle loading/error states
+    console.error("Error prefetching products page data:", error);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

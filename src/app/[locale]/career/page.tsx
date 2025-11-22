@@ -2,17 +2,43 @@ import CareerBanner from '@/components/career/CareerBanner'
 import CareerContactForm from '@/components/career/CareerContactForm'
 import CaruselLogo from '@/components/shared/carusel-logo'
 import Container from '@/components/shared/container'
-import React from 'react'
+import { HydrationBoundary } from "@/providers/HydrationBoundary";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { getPartners } from "@/services/Home/server-api";
+import { queryKeys } from "@/lib/query-keys";
 
-export default function CareerPage() {
+export default async function CareerPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const queryClient = new QueryClient();
+
+  try {
+    // Prefetch all data needed for career page
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.partners(locale),
+        queryFn: () => getPartners(locale),
+      }),
+    ]);
+  } catch (error) {
+    // Log error but don't block page rendering
+    // Components will handle loading/error states
+    console.error("Error prefetching career page data:", error);
+  }
+
   return (
-    <Container>
-      <div className='flex flex-col gap-10'>
-        <CareerBanner />
-        <CareerContactForm />
-     
-        <CaruselLogo />
-      </div>
-    </Container>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Container>
+        <div className='flex flex-col gap-10'>
+          <CareerBanner />
+          <CareerContactForm />
+       
+          <CaruselLogo />
+        </div>
+      </Container>
+    </HydrationBoundary>
   )
 }
