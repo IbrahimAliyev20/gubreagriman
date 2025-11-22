@@ -7,7 +7,14 @@ import { usePartners } from "@/services/Home/queires";
 
 export default function CaruselLogo() {
   const { data: partnersData } = usePartners();
-  const imageLogos = partnersData?.data.map((partner) => ({ src: partner.image, alt: partner.image, href: partner.link }));
+  const imageLogos = partnersData?.data
+    .filter((partner) => partner.image || partner.logo)
+    .map((partner) => ({ 
+      src: partner.image || partner.logo || '', 
+      alt: partner.name, 
+      href: partner.link 
+    }))
+    .filter((logo) => logo.src) as Array<{ src: string; alt?: string; href?: string }>;
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {

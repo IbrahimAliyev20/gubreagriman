@@ -78,7 +78,18 @@ export interface ServiceResponse {
   slug: string;
   image?: string;
   description?: string;
+  div_1?: string;
+  div_2?: string;
+  div_3?: string;
+  div_4?: string;
+  image_1?: string;
+  thumb_image_1?: string;
+  image_2?: string;
+  thumb_image_2?: string;
 }
+
+// Alias for Services (used in Service API)
+export type Services = ServiceResponse;
 
 // Category Cards
 export interface CategoryResponse {
@@ -91,6 +102,7 @@ export interface CategoryResponse {
 // Banner
 export interface BannerResponse {
   title?: string;
+  sub_title?: string;
   image: string;
   description?: string;
   link?: string;

@@ -97,7 +97,7 @@ export function ServiceTabsSec() {
               <div className="flex flex-col gap-8 md:gap-12">
                 <div className="div1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
                   <div>
-                    <div dangerouslySetInnerHTML={{ __html: service.div_1 }} />
+                    {service.div_1 && <div dangerouslySetInnerHTML={{ __html: service.div_1 }} />}
                   </div>
 
                   <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden order-1 md:order-2">
@@ -115,7 +115,7 @@ export function ServiceTabsSec() {
                 </div>
 
                 <div className="div2 p-8 w-full bg-gray-100 rounded-xl">
-                  <div dangerouslySetInnerHTML={{ __html: service.div_2 }} />
+                  {service.div_2 && <div dangerouslySetInnerHTML={{ __html: service.div_2 }} />}
                 </div>
                 <div className="div3 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
                   <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden ">
@@ -131,11 +131,11 @@ export function ServiceTabsSec() {
                     />
                   </div>
                   <div>
-                    <div dangerouslySetInnerHTML={{ __html: service.div_3 }} />
+                    {service.div_3 && <div dangerouslySetInnerHTML={{ __html: service.div_3 }} />}
                   </div>
                 </div>
                 <div className="div4 p-8 w-full bg-gray-100 rounded-xl">
-                  <div dangerouslySetInnerHTML={{ __html: service.div_4 }} />
+                  {service.div_4 && <div dangerouslySetInnerHTML={{ __html: service.div_4 }} />}
                 </div>
               </div>
             </TabsContent>
