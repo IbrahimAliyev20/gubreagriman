@@ -1,7 +1,12 @@
-import React from 'react'
+"use client";
 
-export default function Herbisidler() {
-  return (
-    <div className='min-h-[500px]'>Herbisidler</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface HerbisidlerProps {
+  categorySlug: string;
+}
+
+export default function Herbisidler({ categorySlug }: HerbisidlerProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }

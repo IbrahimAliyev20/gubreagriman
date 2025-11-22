@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 export function Footer() {
   const t = useTranslations("footer");
   return (
-    <footer className="bg-white border-t border-gray-200">
+    <footer className="bg-white border-t border-gray-200 mt-20">
       <Container>
         <div className="bg-[#FAFAFA] hidden md:grid md:grid-cols-12 gap-12 p-10 rounded-t-3xl">
           <div className="md:col-span-5">

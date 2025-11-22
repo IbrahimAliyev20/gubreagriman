@@ -1,8 +1,13 @@
-import React from 'react'
+"use client";
 
-export default function MikroGubreler() {
-  return (
-    <div className='min-h-[500px]'>Mikro Gubreler</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface MikroGubrelerProps {
+  categorySlug: string;
+}
+
+export default function MikroGubreler({ categorySlug }: MikroGubrelerProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }
 

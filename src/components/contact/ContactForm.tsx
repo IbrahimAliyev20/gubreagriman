@@ -18,7 +18,8 @@ export default function ContactForm() {
           <p className="text-white text-sm md:text-base">Bizimlə əlaqə</p>
           <h2 className="text-white text-2xl md:text-4xl font-bold">
             AGRO GÜBRƏ <br />
-            ofisi və texniki işçiləri ilə əlaqə saxlayın
+            ofisi və texniki işçiləri ilə <br />
+            əlaqə saxlayın
           </h2>
           <p className="text-white text-lg md:text-xl">
             <span className="text-2xl md:text-4xl font-bold">*8899</span> <br />

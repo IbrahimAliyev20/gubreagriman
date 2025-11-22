@@ -1,7 +1,12 @@
-import React from 'react'
+"use client";
 
-export default function Insektisidler() {
-  return (
-    <div className='min-h-[500px]'>Insektisidler</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface InsektisidlerProps {
+  categorySlug: string;
+}
+
+export default function Insektisidler({ categorySlug }: InsektisidlerProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }

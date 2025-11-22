@@ -1,8 +1,13 @@
-import React from 'react'
+"use client";
 
-export default function Mineral() {
-  return (
-    <div className='min-h-[500px]'>Mineral</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface MineralProps {
+  categorySlug: string;
+}
+
+export default function Mineral({ categorySlug }: MineralProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }
 

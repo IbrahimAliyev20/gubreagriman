@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import Container from "@/components/shared/container";
 import ProductTabsSec from "@/components/products/ProductTabsSec";
 import ProductBanner from "@/components/products/ProductBanner";
-import { getProductBySlug } from "@/utils/productDetails";
+import { getProductDetail } from "@/services/Product/api";
+import { ApiResponse, ProductDetail } from "@/types/types";
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -11,19 +12,28 @@ interface ProductDetailPageProps {
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  
+  try {
+    const response = await getProductDetail(slug);
+    
+    // API response'unu kontrol et
+    if (!response || !response.data) {
+      notFound();
+    }
 
-  if (!product) {
+    const product: ProductDetail = response.data;
+
+    return (
+      <Container>
+        <div className="flex flex-col gap-10">
+          <ProductBanner />
+          <ProductTabsSec selectedProduct={product} />
+        </div>
+      </Container>
+    );
+  } catch (error) {
+    console.error("Error fetching product:", error);
     notFound();
   }
-
-  return (
-    <Container>
-      <div className="flex flex-col gap-10">
-        <ProductBanner />
-        <ProductTabsSec selectedProduct={product} />
-      </div>
-    </Container>
-  );
 }
 

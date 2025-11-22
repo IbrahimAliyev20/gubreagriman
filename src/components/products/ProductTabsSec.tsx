@@ -11,11 +11,11 @@ import Mineral from "./Tabs/Mineral";
 import DamlamaSuvarmaYarpaq from "./Tabs/DamlamaSuvarmaYarpaq";
 import MikroGubreler from "./Tabs/MikroGubreler";
 import ProductDetailComponent from "./ProductDetail";
-import { ProductCategoryResponse, ProductDetail } from "@/types/types";
-import useProductCategories from "@/services/Product/queries";
+import {  ProductDetail } from "@/types/types";
+import { useProductCategories } from "@/services/Product/queries";
 
 // Map sub-category slugs to their components
-const subCategoryComponents: Record<string, React.ComponentType> = {
+const subCategoryComponents: Record<string, React.ComponentType<{ categorySlug: string }>> = {
   "funqisidler": Funqisidler,
   "herbisit": Herbisidler,
   "insektisit": Insektisidler,
@@ -34,7 +34,7 @@ interface ProductTabsSecProps {
 
 const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
   const { data: categoriesData } = useProductCategories();
-  console.log(categoriesData);
+  console.log("ProductTabsSec - categoriesData:", categoriesData);
   const [mainTab, setMainTab] = useState<string>("");
   const [subTab, setSubTab] = useState<string>("");
   const [accordionStates, setAccordionStates] = useState<Record<string, boolean>>({});
@@ -46,7 +46,9 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
       setAccordionStates({ [firstCategory.slug]: true });
       
       if (firstCategory.sub_categories && firstCategory.sub_categories.length > 0) {
-        setSubTab(firstCategory.sub_categories[0].slug);
+        const firstSubCategory = firstCategory.sub_categories[0];
+        console.log("ProductTabsSec - Setting subTab to:", firstSubCategory.slug);
+        setSubTab(firstSubCategory.slug);
       }
     }
   }, [categoriesData]);
@@ -119,7 +121,7 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
                           }`}
                         >
                           <div className="ml-4 mt-1 space-y-1 pb-1">
-                            {category.sub_categories.map((subCategory) => (
+                            {category.sub_categories?.map((subCategory) => (
                               <button
                                 key={subCategory.slug}
                                 onClick={() => setSubTab(subCategory.slug)}
@@ -153,9 +155,10 @@ const ProductTabsSec = ({ selectedProduct = null }: ProductTabsSecProps) => {
                     {selectedProduct ? (
                       <ProductDetailComponent product={selectedProduct} />
                     ) : (
-                      isActiveTab && SubCategoryComponent && subTab && (
-                        <SubCategoryComponent />
-                      )
+                      isActiveTab && SubCategoryComponent && subTab && (() => {
+                        console.log("ProductTabsSec - Rendering SubCategoryComponent with slug:", subTab);
+                        return <SubCategoryComponent categorySlug={subTab} />;
+                      })()
                     )}
                   </TabsContent>
                 );

@@ -1,8 +1,12 @@
-import React from 'react'
+"use client";
 
-export default function Akarisidler() {
-  return (
-    <div className='min-h-[500px]'
-    >Akarisidler</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface AkarisidlerProps {
+  categorySlug: string;
+}
+
+export default function Akarisidler({ categorySlug }: AkarisidlerProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }

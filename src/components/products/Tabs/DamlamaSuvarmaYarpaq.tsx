@@ -1,8 +1,13 @@
-import React from 'react'
+"use client";
 
-export default function DamlamaSuvarmaYarpaq() {
-  return (
-    <div className='min-h-[500px]'>Damlama, Suvarma, Yarpaq</div>
-  )
+import React from "react";
+import ProductList from "../ProductList";
+
+interface DamlamaSuvarmaYarpaqProps {
+  categorySlug: string;
+}
+
+export default function DamlamaSuvarmaYarpaq({ categorySlug }: DamlamaSuvarmaYarpaqProps) {
+  return <ProductList categorySlug={categorySlug} />;
 }
 

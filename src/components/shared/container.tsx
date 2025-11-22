@@ -2,7 +2,7 @@ import React from 'react'
 
 function Container({ children,className }: { children: React.ReactNode,className?: string }) {
   return (
-    <div className={` mx-auto md:px-[60px] px-4 ${className}`}>
+    <div className={` mx-auto md:px-[30px] px-4 ${className}`}>
         {children}
     </div>
   )
