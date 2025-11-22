@@ -71,3 +71,35 @@ export interface ProductCategoryResponse {
   slug: string;
   sub_categories?: { name: string; slug: string }[];
 }
+
+// Service Cards
+export interface ServiceResponse {
+  title: string;
+  slug: string;
+  image?: string;
+  description?: string;
+}
+
+// Category Cards
+export interface CategoryResponse {
+  name: string;
+  slug: string;
+  image?: string;
+  description?: string;
+}
+
+// Banner
+export interface BannerResponse {
+  title?: string;
+  image: string;
+  description?: string;
+  link?: string;
+}
+
+// Partners
+export interface PartnerResponse {
+  name: string;
+  logo?: string;
+  image?: string;
+  link?: string;
+}
