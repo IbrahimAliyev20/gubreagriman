@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Search,
   User,
-  ShoppingCart,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -59,11 +58,11 @@ export function MobileMenu() {
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-[#2C2C2E]">
             <Image
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt="Company Logo"
               width={150}
               height={50}
-              className="w-20 h-12"
+              className="w-full h-12 object-contain"
             />
            
           </div>
@@ -156,7 +155,7 @@ export function MobileMenu() {
             </ul>
           </nav>
 
-          {/* DƏYİŞİKLİK: İKON BLOKU (Menyunun ən altında) */}
+          {/* İKON BLOKU (Menyunun ən altında) */}
           <div className="p-4 border-t border-[#2C2C2E]">
             <div className="flex items-center justify-center gap-2.5 rounded-full bg-gray-100 py-1 px-4">
               <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
@@ -168,9 +167,6 @@ export function MobileMenu() {
               >
                 <User className="h-5 w-5" />
               </Link>
-              <button className="p-1.5 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
-                <ShoppingCart className="h-5 w-5" />
-              </button>
               <div className="mx-1 h-6 w-px bg-gray-300" />
               <LanguageSelector />
             </div>

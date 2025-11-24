@@ -15,7 +15,6 @@ export const DesktopTabs = ({
   categories,
   mainTab,
   subTab,
-  onMainTabChange,
   onSubCategorySelect,
 }: DesktopTabsProps) => {
   return (

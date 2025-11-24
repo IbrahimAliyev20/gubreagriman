@@ -87,8 +87,7 @@ export function ServiceTabsSec() {
         </TabsList>
 
         {services?.data.map((service, index) => {
-          // 2. ve 4. kategorilerde (index 1 ve 3) yerleri değiştir
-          const isReversed = index % 2 === 1; // 1, 3, 5... için true
+          const isReversed = index % 2 === 1;
           
           return (
             <TabsContent
@@ -97,7 +96,6 @@ export function ServiceTabsSec() {
               className="mt-6 md:mt-10 transition-all duration-500 ease-in-out"
             >
               <div className="flex flex-col gap-8 md:gap-12">
-                {/* div1: 2. ve 4. kategorilerde şekil solda, metin sağda */}
                 <div className="div1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
                   {isReversed ? (
                     <>
@@ -142,7 +140,6 @@ export function ServiceTabsSec() {
                   {service.div_2 && <div dangerouslySetInnerHTML={{ __html: service.div_2 }} />}
                 </div>
                 
-                {/* div3: 2. ve 4. kategorilerde metin solda, şekil sağda */}
                 <div className="div3 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
                   {isReversed ? (
                     <>
@@ -183,7 +180,7 @@ export function ServiceTabsSec() {
                   )}
                 </div>
                 
-                <div className="div4 p-8 w-full bg-gray-100 rounded-xl">
+                <div className="div4  p-8 w-full bg-gray-100 rounded-xl">
                   {service.div_4 && <div dangerouslySetInnerHTML={{ __html: service.div_4 }} />}
                 </div>
               </div>

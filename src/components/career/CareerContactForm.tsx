@@ -3,12 +3,23 @@
 import { Paperclip } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { useCareerFormMutation } from "@/services/Career/mutations";
+import { toast } from "sonner";
 
 export default function CareerContactForm() {
   const t = useTranslations("buttons");
   const [cvFile, setCvFile] = useState<File | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    profession: "",
+    message: "",
+  });
+
+  const mutation = useCareerFormMutation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -16,8 +27,59 @@ export default function CareerContactForm() {
     }
   };
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!cvFile) {
+      toast.error("CV faylı yüklənməlidir");
+      return;
+    }
+
+    mutation.mutate(
+      {
+        ...formData,
+        cv: cvFile,
+      },
+      {
+        onSuccess: (response) => {
+          toast.success(response.message || "Müraciət uğurla göndərildi");
+          // Reset form
+          setFormData({
+            name: "",
+            surname: "",
+            email: "",
+            profession: "",
+            message: "",
+          });
+          setCvFile(null);
+          // Reset file input
+          const fileInput = document.querySelector(
+            'input[type="file"]'
+          ) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = "";
+          }
+        },
+        onError: (error) => {
+          toast.error(error.message || "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+        },
+      }
+    );
+  };
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className="rounded-[20px] border border-[#BDBDBD] p-12  gap-10 flex flex-col md:flex-row"
       style={{
         background: "linear-gradient(to right, #85C553, #116E41)",
@@ -47,30 +109,50 @@ export default function CareerContactForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
             placeholder="Ad"
+            required
             className="bg-gray-50 text-black placeholder:text-gray-500 rounded-[20px] h-12 px-4 border border-gray-200 focus:border-gray-300"
           />
           <Input
             type="text"
+            name="surname"
+            value={formData.surname}
+            onChange={handleInputChange}
             placeholder="Soyad"
+            required
             className="bg-gray-50 text-black placeholder:text-gray-500 rounded-[20px] h-12 px-4 border border-gray-200 focus:border-gray-300"
           />
         </div>
 
         <Input
           type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
           placeholder="E-Poçt"
+          required
           className="bg-gray-50 text-black placeholder:text-gray-500 rounded-[20px] h-12 px-4 border border-gray-200 focus:border-gray-300"
         />
 
         <Input
           type="text"
+          name="profession"
+          value={formData.profession}
+          onChange={handleInputChange}
           placeholder="Peşə"
+          required
           className="bg-gray-50 text-black placeholder:text-gray-500 rounded-[20px] h-12 px-4 border border-gray-200 focus:border-gray-300"
         />
 
         <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
           placeholder="Mesaj"
+          required
           className="bg-gray-50 text-black placeholder:text-gray-500 rounded-[20px] h-32 px-4 py-3 border border-gray-200 focus:border-gray-300 resize-none focus:outline-none"
         />
 
@@ -81,6 +163,7 @@ export default function CareerContactForm() {
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
               className="hidden"
+              required
             />
             <Button
               type="button"
@@ -89,19 +172,20 @@ export default function CareerContactForm() {
             >
               <span className="flex items-center justify-center gap-2 cursor-pointer">
                 <Paperclip className="h-5 w-5" />
-                {t("uploadCV")}
+                {cvFile ? cvFile.name : t("uploadCV")}
               </span>
             </Button>
           </label>
 
           <Button
             type="submit"
-            className="flex-1 bg-[#85C553] hover:bg-[#7CB342] text-white rounded-[20px] h-12 px-4 border-0"
+            disabled={mutation.isPending}
+            className="flex-1 bg-[#85C553] hover:bg-[#7CB342] text-white rounded-[20px] h-12 px-4 border-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("send")}
+            {mutation.isPending ? "Göndərilir..." : t("send")}
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

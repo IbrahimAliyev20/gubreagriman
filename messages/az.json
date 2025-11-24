@@ -49,5 +49,21 @@
     "goHome": "Ana səhifəyə qayıt",
     "errorDetails": "Xəta məlumatları",
     "stackTrace": "Stack trace"
+  },
+  "messages": {
+    "contactFormSuccess": "Mesajınız uğurla göndərildi",
+    "contactFormError": "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+  },
+  "productDetail": {
+    "category": "Kateqoriya",
+    "keyCharacteristics": "Əsas xüsusiyyətlər",
+    "productDescription": "Məhsul təsviri",
+    "usageTable": "İstifadə Cədvəli",
+    "plantName": "Bitki adı",
+    "pestName": "Zərərverici Orqanizmin Adı",
+    "applicationDosage": "Tətbiq Dozası",
+    "preHarvestInterval": "Son tətbiq və məhsul yığımı arasındakı vaxt",
+    "relatedProducts": "Əlaqəli məhsullar",
+    "noImage": "Şəkil yoxdur"
   }
 }

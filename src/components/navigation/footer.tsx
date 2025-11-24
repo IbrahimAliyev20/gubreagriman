@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import Container from "../shared/container";
 import {
@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 export function Footer() {
   const t = useTranslations("footer");
   return (
-    <footer className="bg-white border-t border-gray-200 mt-20">
+    <footer className="bg-white border-t border-gray-200 mt-5 md:mt-20">
       <Container>
         <div className="bg-[#FAFAFA] hidden md:grid md:grid-cols-12 gap-12 p-10 rounded-t-3xl">
           <div className="md:col-span-5">

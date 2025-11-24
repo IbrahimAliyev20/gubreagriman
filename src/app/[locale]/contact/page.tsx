@@ -16,7 +16,6 @@ export default async function ContactPage({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for contact page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.partners(locale),
@@ -24,8 +23,6 @@ export default async function ContactPage({
       }),
     ]);
   } catch (error) {
-    // Log error but don't block page rendering
-    // Components will handle loading/error states
     console.error("Error prefetching contact page data:", error);
   }
 

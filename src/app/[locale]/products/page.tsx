@@ -18,7 +18,6 @@ export default async function ProductsPage({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for products page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.products.categories(locale),
@@ -30,8 +29,6 @@ export default async function ProductsPage({
       }),
     ]);
   } catch (error) {
-    // Log error but don't block page rendering
-    // Components will handle loading/error states
     console.error("Error prefetching products page data:", error);
   }
 
@@ -78,7 +75,7 @@ export default async function ProductsPage({
               </div>
             </div>
           }>
-            <ProductTabsSec />
+            <ProductTabsSec />  
           </Suspense>
 
           <Suspense fallback={

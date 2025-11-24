@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Tabs } from "@/components/ui/tabs";
 import { useProductCategories, useProductDetail } from "@/services/Product/queries";
 import { ProductDetail } from "@/types/types";
@@ -17,13 +17,13 @@ interface ProductTabsSecProps {
 
 const ProductTabsSec = ({ selectedProduct: propSelectedProduct = null }: ProductTabsSecProps) => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = params?.slug as string | undefined;
+  const categorySlug = searchParams?.get("category");
   
-  // If slug exists in URL (product detail page), fetch product from query
   const { data: productDetailData } = useProductDetail(slug || "");
   const querySelectedProduct = productDetailData?.data || null;
   
-  // Use prop if provided (backward compatibility), otherwise use query result
   const selectedProduct = propSelectedProduct || querySelectedProduct;
   
   const { data: categoriesData } = useProductCategories();
@@ -38,6 +38,7 @@ const ProductTabsSec = ({ selectedProduct: propSelectedProduct = null }: Product
   } = useProductTabs({
     categoriesData,
     selectedProduct,
+    initialCategorySlug: categorySlug || undefined,
   });
 
   if (!categoriesData?.data || categoriesData.data.length === 0) return null;
@@ -53,7 +54,7 @@ const ProductTabsSec = ({ selectedProduct: propSelectedProduct = null }: Product
           onSubCategorySelect={handleSubCategorySelect}
         />
 
-        <div className="col-span-1 lg:col-span-6 min-h-screen">
+        <div className="col-span-1 lg:col-span-6 min-h-[500px] md:min-h-screen">
           {isMobile && (
             <MobileSelects
               categories={categoriesData.data}
@@ -69,6 +70,7 @@ const ProductTabsSec = ({ selectedProduct: propSelectedProduct = null }: Product
             selectedProduct={selectedProduct}
             mainTab={mainTab}
             subTab={subTab}
+            categories={categoriesData.data}
           />
         </div>
       </div>

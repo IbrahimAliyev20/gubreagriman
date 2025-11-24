@@ -25,7 +25,6 @@ export default async function ProductDetailPage({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for product detail page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.products.detail(slug, locale),
@@ -45,7 +44,6 @@ export default async function ProductDetailPage({
       }),
     ]);
 
-    // Check if product exists
     const productData = queryClient.getQueryData<{ data: unknown }>(
       queryKeys.products.detail(slug, locale)
     );

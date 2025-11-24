@@ -16,7 +16,6 @@ export default async function CareerPage({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for career page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.partners(locale),
@@ -24,8 +23,6 @@ export default async function CareerPage({
       }),
     ]);
   } catch (error) {
-    // Log error but don't block page rendering
-    // Components will handle loading/error states
     console.error("Error prefetching career page data:", error);
   }
 

@@ -19,7 +19,6 @@ export default async function ServicesPage({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for services page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.banners("service", locale),
@@ -31,8 +30,6 @@ export default async function ServicesPage({
       }),
     ]);
   } catch (error) {
-    // Log error but don't block page rendering
-    // Components will handle loading/error states
     console.error("Error prefetching services page data:", error);
   }
 

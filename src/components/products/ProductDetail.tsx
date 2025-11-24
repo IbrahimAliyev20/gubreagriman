@@ -14,14 +14,13 @@ interface ProductDetailProps {
 
 export default function ProductDetailComponent({ product }: ProductDetailProps) {
   const t = useTranslations("buttons");
-  const { data: relatedProductsData, isLoading: isLoadingRelated } = useRelatedProducts(product.slug);
+  const tProduct = useTranslations("productDetail");
+  const { data: relatedProductsData } = useRelatedProducts(product.slug);
 
-  // Rənglər (Şəkilə əsasən)
   const grayBgColor = "bg-[#F2F4F6]";
   const brandGreen = "bg-[#84BD5A]";
   const brandGreenHover = "hover:bg-[#76aa50]";
-  
-  // Validate image URL
+
   const isValidImageUrl = (url: string | undefined | null): boolean => {
     if (!url || typeof url !== 'string') return false;
     const trimmed = url.trim();
@@ -35,7 +34,6 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
     ? product.thumb_image!.trim()
     : "/images/product.png";
 
-  // Extract related products
   let relatedProducts: CategoryProducts[] = [];
   if (relatedProductsData) {
     if (relatedProductsData.data && Array.isArray(relatedProductsData.data)) {
@@ -57,51 +55,42 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
             />
           ) : (
             <div className="flex items-center justify-center text-gray-400">
-              <span className="text-xl">No Image</span>
+              <span className="text-xl">{tProduct("noImage")}</span>
             </div>
           )}
         </div>
 
-        {/* 2. SAĞ TƏRƏF - Məlumatlar (4 kolon) */}
         <div className="lg:col-span-4 flex flex-col">
-          {/* Kateqoriya: Boz, Uppercase, Kiçik */}
           {product.parent_category && (
             <p className="text-sm text-gray-400 uppercase tracking-wide font-medium mb-2">
-              {`Kateqoriya: ${product.parent_category}`}
+              {`${tProduct("category")}: ${product.parent_category}`}
             </p>
           )}
           
-          {/* Məhsul Adı: Böyük, Qara, Qalın */}
           <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight mb-6">
             {product.name}
           </h1>
           
-          {/* Button: Yaşıl, Oval, Ox işarəsi ilə */}
           <button className={`w-fit cursor-pointer flex items-center gap-2 ${brandGreen} ${brandGreenHover} text-white px-5 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-md active:scale-95 mb-10`}>
             <span>{t("submitQuote")}</span>
             <ArrowRight className="h-5 w-5" />
           </button>
 
-          {/* Xüsusiyyətlər Cədvəli (Key characteristics) */}
           {product.attributes && product.attributes.length > 0 && (
             <div>
-              <p className="text-gray-400 mb-3 text-lg">Key characteristics</p>
+              <p className="text-gray-400 mb-3 text-lg">{tProduct("keyCharacteristics")}</p>
               
-              {/* Cədvəl Dizaynı: Tam Grid (Borderli) */}
               <div className="border border-gray-200 w-full">
                 <table className="w-full border-collapse">
                   <tbody>
                     {product.attributes.map((attr, index) => (
                       <tr
                         key={index}
-                        // Hər sətirin altında xətt (sonuncu xaric)
                         className="border-b border-gray-200 last:border-b-0"
                       >
-                        {/* Sol Sütun: Boz border sağda, Padding, Normal Font */}
                         <td className="border-r border-gray-200 px-4 py-3 text-gray-600 w-1/3 align-middle text-sm md:text-base">
                           {attr.attribute_key}
                         </td>
-                        {/* Sağ Sütun: Qara, Qalın Font */}
                         <td className="px-4 py-3 text-black font-bold align-middle text-sm md:text-base">
                           {attr.attribute_value}
                         </td>
@@ -115,11 +104,10 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
         </div>
       </div>
 
-      {/* --- ALT HİSSƏLƏR (Description & Usage) --- */}
       {product.description && (
         <div className="w-full mb-10">
           <div className="inline-block px-6 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-600 mb-4">
-          Məhsul təsviri
+          {tProduct("productDescription")}
           </div>
           <div className="border-t-4 border-[#8BC34A] pt-6">
             <div 
@@ -130,21 +118,20 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
         </div>
       )}
 
-      {/* Usage Table */}
       {product.usage && product.usage.length > 0 && (
         <div className="w-full mb-12">
           <div className="inline-block px-6 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-600 mb-4">
-            İstifadə Cədvəli
+            {tProduct("usageTable")}
           </div>
           <div className="border-t-4 border-[#8BC34A] pt-6">
             <div className="overflow-x-auto rounded-lg border border-gray-100">
               <table className="w-full border-collapse min-w-[600px]">
                 <thead>
                   <tr className="bg-[#8BC34A] text-white">
-                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Bitki adı</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Zərərverici Orqanizmin Adı</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">Tətbiq Dozası</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Son tətbiq və məhsul yığımı arasındakı vaxt</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">{tProduct("plantName")}</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">{tProduct("pestName")}</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold border-r border-white/20 last:border-r-0">{tProduct("applicationDosage")}</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">{tProduct("preHarvestInterval")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -163,12 +150,11 @@ export default function ProductDetailComponent({ product }: ProductDetailProps) 
         </div>
       )}
 
-      {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="w-full mt-16">
           <div className="mb-8">
             <div className="w-full h-px bg-gray-200 mb-6"></div>
-            <h2 className="text-2xl font-bold text-black">Related products</h2>
+            <h2 className="text-2xl font-bold text-black">{tProduct("relatedProducts")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((relatedProduct: CategoryProducts, index: number) => {

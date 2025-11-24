@@ -1,9 +1,39 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import React from "react";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { useProductCategories } from "@/services/Product/queries";
+
+// Kateqoriya adlarının mapping-i
+const categoryNameMap: Record<string, string> = {
+  "Bitki mühafizə vasitələri": "bitki-muhafize-vasiteleri",
+  "Bitki stimulyatorları": "bitki-stimulyatorlari",
+  "Dezinfeksiya": "dezinfeksiya",
+  "Feromonlar": "feromonlar",
+  "Gübrələr": "gubreler",
+  "Toxumlar": "toxumlar",
+};
 
 function OurProducts() {
+  const { data: categoriesData } = useProductCategories();
+  
+  // Kateqoriya adlarını slug-lara map et
+  const getCategorySlug = (categoryName: string): string | null => {
+    if (!categoriesData?.data) {
+      // Fallback: statik mapping istifadə et
+      return categoryNameMap[categoryName] || null;
+    }
+    
+    // API-dən gələn kateqoriyalarda uyğunluq tap
+    const category = categoriesData.data.find(
+      (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
+    );
+    
+    return category?.slug || categoryNameMap[categoryName] || null;
+  };
+
   // Kartların ortaq stili - Dəyişiklik burada edilib
   const cardClasses = " p-5 md:p-8 flex flex-col justify-between rounded-[20px] gap-4 border-[#BDBDBD] border-2 relative overflow-hidden min-h-[280px] md:min-h-[200px]";
 
@@ -65,7 +95,7 @@ function OurProducts() {
                 Bitki mühafizə vasitələri
               </p>
               <Link
-                href="/products"
+                href={`/products${getCategorySlug("Bitki mühafizə vasitələri") ? `?category=${getCategorySlug("Bitki mühafizə vasitələri")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />
@@ -103,7 +133,7 @@ function OurProducts() {
                 Bitki stimulyatorları
               </p>
               <Link
-                href="/products"
+                href={`/products${getCategorySlug("Bitki stimulyatorları") ? `?category=${getCategorySlug("Bitki stimulyatorları")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />
@@ -141,7 +171,7 @@ function OurProducts() {
                 Dezinfeksiya
               </p>
               <Link
-                href="#"
+                href={`/products${getCategorySlug("Dezinfeksiya") ? `?category=${getCategorySlug("Dezinfeksiya")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />
@@ -179,7 +209,7 @@ function OurProducts() {
                 Feromonlar
               </p>
               <Link
-                href="/products"
+                href={`/products${getCategorySlug("Feromonlar") ? `?category=${getCategorySlug("Feromonlar")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />
@@ -217,7 +247,7 @@ function OurProducts() {
                 Gübrələr
               </p>
               <Link
-                href="#"
+                href={`/products${getCategorySlug("Gübrələr") ? `?category=${getCategorySlug("Gübrələr")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />
@@ -254,7 +284,7 @@ function OurProducts() {
                 Toxumlar
               </p>
               <Link
-                href="#"
+                href={`/products${getCategorySlug("Toxumlar") ? `?category=${getCategorySlug("Toxumlar")}` : ""}`}
                 className="flex gap-2 items-center font-bold bg-white w-fit px-5 py-2 rounded-full text-sm hover:text-[#69B159] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
               >
                 Ətraflı <ArrowRight className="h-4 w-4" />

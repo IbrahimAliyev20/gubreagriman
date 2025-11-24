@@ -20,7 +20,6 @@ export default async function Home({
   const queryClient = new QueryClient();
 
   try {
-    // Prefetch all data needed for home page
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.banners("home", locale),
@@ -36,15 +35,13 @@ export default async function Home({
       }),
     ]);
   } catch (error) {
-    // Log error but don't block page rendering
-    // Components will handle loading/error states
     console.error("Error prefetching home page data:", error);
   }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container>
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-10 md:gap-20">
           <Suspense fallback={
             <div className="relative rounded-3xl overflow-hidden bg-cover bg-center bg-no-repeat border border-[#BDBDBD] min-h-[400px] animate-pulse">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 py-5 md:px-12 md:py-14">

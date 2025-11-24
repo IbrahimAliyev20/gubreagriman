@@ -2,7 +2,7 @@
 
 import { User, Search,  ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useState, useRef, useEffect } from "react";
 import LanguageSelector from "../shared/language-selector";
 import Container from "../shared/container";
@@ -178,18 +178,7 @@ export function Header() {
             </div>
           </div>
           
-          <div className="flex md:hidden items-center gap-2.5">
-            <div className="flex items-center gap-1 rounded-full bg-[#F4F4F4] px-2 py-1">
-              <button className="p-1 text-[#BCBCBC] hover:text-primary cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
-                <Search className="h-5 w-5" />
-              </button>
-              <Link href="/login" className="p-1 text-[#84CC16] hover:text-[#65A30D] cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95">
-                <User className="h-5 w-5 stroke-2" />
-              </Link>
-              <div className="h-6 w-px bg-gray-300" />
-              <LanguageSelector />
-            </div>
-            
+          <div className="flex md:hidden items-center">
             <MobileMenu />
           </div>
 

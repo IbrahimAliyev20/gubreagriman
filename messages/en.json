@@ -49,5 +49,21 @@
     "goHome": "Go to homepage",
     "errorDetails": "Error details",
     "stackTrace": "Stack trace"
+  },
+  "messages": {
+    "contactFormSuccess": "Your message has been sent successfully",
+    "contactFormError": "An error occurred. Please try again."
+  },
+  "productDetail": {
+    "category": "Category",
+    "keyCharacteristics": "Key characteristics",
+    "productDescription": "Product description",
+    "usageTable": "Usage Table",
+    "plantName": "Plant Name",
+    "pestName": "Pest Name",
+    "applicationDosage": "Application Dosage",
+    "preHarvestInterval": "Pre-harvest Interval",
+    "relatedProducts": "Related products",
+    "noImage": "No Image"
   }
 }

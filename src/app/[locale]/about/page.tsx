@@ -6,15 +6,8 @@ import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 
 export default async function AboutPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+}: {}) {
   const queryClient = new QueryClient();
-
-  // About page doesn't require any API data, but we maintain SSR structure
-  // If needed in the future, prefetch queries can be added here
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
