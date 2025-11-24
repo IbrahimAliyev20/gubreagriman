@@ -43,6 +43,10 @@ const setupInterceptors = (): void => {
         config.headers.Authorization = `Bearer ${token}`
       }
 
+      // Əgər FormData göndərilirsə, Content-Type header-ını sil ki axios avtomatik təyin etsin
+      if (config.data instanceof FormData && config.headers) {
+        delete config.headers['Content-Type']
+      }
       
       if (config.headers) {
         const configLocale = config.params?.locale || config.headers['X-Locale']

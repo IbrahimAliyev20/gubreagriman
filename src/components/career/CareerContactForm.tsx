@@ -52,7 +52,8 @@ export default function CareerContactForm() {
       },
       {
         onSuccess: (response) => {
-          toast.success(response.message || "Müraciət uğurla göndərildi");
+          const successMessage = response.data?.message || response.message || "Müraciət uğurla göndərildi";
+          toast.success(successMessage);
           // Reset form
           setFormData({
             name: "",
@@ -70,8 +71,24 @@ export default function CareerContactForm() {
             fileInput.value = "";
           }
         },
-        onError: (error) => {
-          toast.error(error.message || "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+        onError: (error: Error) => {
+          // Axios error-larından mesajı çıxar
+          const axiosError = error as Error & {
+            response?: {
+              data?: {
+                message?: string;
+                data?: {
+                  message?: string;
+                };
+              };
+            };
+          };
+          const errorMessage = 
+            axiosError?.response?.data?.message || 
+            axiosError?.response?.data?.data?.message ||
+            error?.message || 
+            "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.";
+          toast.error(errorMessage);
         },
       }
     );

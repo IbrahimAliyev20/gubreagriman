@@ -6,7 +6,7 @@ import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 
 export default async function AboutPage({
-}: {}) {
+}: Record<string, never>) {
   const queryClient = new QueryClient();
 
   return (
