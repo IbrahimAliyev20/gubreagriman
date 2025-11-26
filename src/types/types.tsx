@@ -1,4 +1,4 @@
-// types.ts
+
 export interface ApiResponse<T> {
   status: boolean;
   message: string;
@@ -7,7 +7,6 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-// Pagination strukturu (category-products üçün)
 export interface PaginatedResponse<T> {
   data: T[];
   links: {
@@ -32,7 +31,6 @@ export interface PaginatedResponse<T> {
   };
 }
 
-// Category-dəki məhsullar (list üçün)
 export interface CategoryProducts {
   name: string;
   slug: string;
@@ -41,7 +39,6 @@ export interface CategoryProducts {
   category: string;
 }
 
-// Məhsulun detalları
 export interface ProductAttribute {
   attribute_key: string;
   attribute_value: string;
@@ -74,7 +71,6 @@ export interface ProductCategoryResponse {
   }[];
 }
 
-// Service Cards
 export interface ServiceResponse {
   title: string;
   slug: string;
@@ -99,7 +95,6 @@ export interface CategoryResponse {
   description?: string;
 }
 
-// Banner
 export interface BannerResponse {
   title?: string;
   sub_title?: string;
@@ -108,7 +103,6 @@ export interface BannerResponse {
   link?: string;
 }
 
-// Partners
 export interface PartnerResponse {
   name: string;
   logo?: string;
@@ -121,7 +115,6 @@ export interface StaticResponse {
   number: string;
 }
 
-// About
 export interface AboutResponse {
   title: string;
   description: string;

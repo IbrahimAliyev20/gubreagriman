@@ -20,8 +20,8 @@ export const queryKeys = {
     categories: (locale?: string) => 
       [...queryKeys.products.all, 'categories', locale ?? ''] as const,
     
-    categoryProducts: (categorySlug: string, locale?: string) => 
-      [...queryKeys.products.all, 'category-products', categorySlug, locale ?? ''] as const,
+    categoryProducts: (categorySlug: string, locale?: string, page?: number) => 
+      [...queryKeys.products.all, 'category-products', categorySlug, locale ?? '', page ?? 1] as const,
     
     categoryProductsInfinite: (categorySlug: string, locale?: string) => 
       [...queryKeys.products.all, 'category-products-infinite', categorySlug, locale ?? ''] as const,

@@ -16,10 +16,13 @@ const getProductCategories = async (locale?: string) => {
   return response;
 };
 
-const getCategoryProducts = async (category_slug: string, locale?: string) => {
+const getCategoryProducts = async (category_slug: string, locale?: string, page?: number) => {
   const response = await get<ApiResponse<PaginatedResponse<CategoryProducts>>>(
     `/category-products/${category_slug}`,
-    { locale }
+    { 
+      locale,
+      params: page ? { page } : undefined
+    }
   );
   return response;
 };

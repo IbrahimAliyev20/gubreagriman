@@ -15,10 +15,11 @@ export const getProductCategories = async (locale?: string) => {
   return response;
 };
 
-export const getCategoryProducts = async (category_slug: string, locale?: string) => {
+export const getCategoryProducts = async (category_slug: string, locale?: string, page?: number) => {
   const response = await serverGet<ApiResponse<PaginatedResponse<CategoryProducts>>>(
     `/category-products/${category_slug}`,
-    locale
+    locale,
+    page ? { params: { page } } : undefined
   );
   return response;
 };

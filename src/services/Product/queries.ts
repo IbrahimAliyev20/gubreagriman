@@ -52,13 +52,13 @@ export const useCategoryProductsInfinite = (category_slug: string) => {
   });
 };
 
-// Köhnə query (istəyən istifadə edə bilər, məsələn pagination düymələri üçün)
-export const useCategoryProducts = (category_slug: string) => {
+// Paginated query for traditional pagination controls
+export const useCategoryProducts = (category_slug: string, page: number = 1) => {
   const locale = useLocale();
   return useQuery({
-    queryKey: queryKeys.products.categoryProducts(category_slug, locale),
-    queryFn: () => getCategoryProducts(category_slug, locale),
-    enabled: !!category_slug,
+    queryKey: queryKeys.products.categoryProducts(category_slug, locale, page),
+    queryFn: () => getCategoryProducts(category_slug, locale, page),
+    enabled: !!category_slug && page > 0,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
