@@ -4,8 +4,10 @@ import CaruselLogo from '@/components/shared/carusel-logo'
 import Container from '@/components/shared/container'
 import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getPartners } from "@/services/Home/server-api";
+import { getBanners, getPartners } from "@/services/Home/server-api";
 import { queryKeys } from "@/lib/query-keys";
+import { getContacts } from '@/services/Contacts/server-api';
+import { Suspense } from 'react';
 
 export default async function ContactPage({
   params,
@@ -15,13 +17,27 @@ export default async function ContactPage({
   const { locale } = await params;
   const queryClient = new QueryClient();
 
+  let contacts = null;
+
   try {
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.partners(locale),
         queryFn: () => getPartners(locale),
       }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.contacts.contacts(locale),
+        queryFn: () => getContacts(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.banners("contact", locale),
+        queryFn: () => getBanners("contact", locale),
+      }),
     ]);
+
+    // Fetch contacts data for server-side rendering
+    const contactsResponse = await getContacts(locale);
+    contacts = contactsResponse;
   } catch (error) {
     console.error("Error prefetching contact page data:", error);
   }
@@ -30,20 +46,19 @@ export default async function ContactPage({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container>
         <div className='flex flex-col gap-10'>
-          <ContactBanner />
+          <Suspense fallback={<div className="w-full h-[300px] bg-gray-200 rounded-[20px] animate-pulse"></div>}>
+            <ContactBanner />
+          </Suspense>
 
-          <ContactForm />
-          <div className="w-full rounded-[20px] overflow-hidden border border-[#BDBDBD]">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.428490145!2d49.851370815355!3d40.377190979369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x403087dcd9c8c2b1%3A0xdf4767c369343a15!2sBaku%2C%20Azerbaijan!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
-              width="100%"
-              height="450"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
-            />
+          {contacts && <ContactForm contacts={contacts} />}
+          <div className="w-full rounded-[20px] overflow-hidden border border-[#BDBDBD] ">
+            {contacts?.location ? (
+              <div dangerouslySetInnerHTML={{ __html: contacts.location }} className='[&>iframe]:h-96 [&>iframe]:w-full' />
+            ) : (
+              <div className="h-96 bg-gray-100 flex items-center justify-center text-gray-500 rounded-[20px]">
+                Xəritə tapılmadı
+              </div>
+            )}
           </div>
           <CaruselLogo />
         </div>

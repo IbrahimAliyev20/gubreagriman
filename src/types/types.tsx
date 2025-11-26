@@ -60,16 +60,18 @@ export interface ProductDetail {
   image: string;
   thumb_image: string;
   parent_category?: string;
-  description: string; // API-də string gəlir (<br> ilə)
+  description: string;
   attributes: ProductAttribute[];
   usage: ProductUsage[];
 }
 
-// Kateqoriyalar (əgər /categories endpoint-i varsa)
 export interface ProductCategoryResponse {
   name: string;
   slug: string;
-  sub_categories?: { name: string; slug: string }[];
+  sub_categories?: { 
+    name: string; 
+    slug: string 
+  }[];
 }
 
 // Service Cards
@@ -88,10 +90,8 @@ export interface ServiceResponse {
   thumb_image_2?: string;
 }
 
-// Alias for Services (used in Service API)
 export type Services = ServiceResponse;
 
-// Category Cards
 export interface CategoryResponse {
   name: string;
   slug: string;
@@ -114,4 +114,39 @@ export interface PartnerResponse {
   logo?: string;
   image?: string;
   link?: string;
+}
+
+export interface StaticResponse {
+  name: string;
+  number: string;
+}
+
+// About
+export interface AboutResponse {
+  title: string;
+  description: string;
+}
+
+export interface SocialLinkResponse {
+  name: string;
+  link: string;
+}
+
+export interface HomeAboutResponse {
+  title: string;
+  description_1: string;
+  description_2: string;
+  image: string;
+  thumb_image: string;
+  service_image: string;
+}
+
+export interface ContactsResponse {
+  email: string;
+  short_code: string;
+  work_hours: string;
+  location: string;
+  footer_title: string;
+  footer_description_1: string;
+  footer_description_2: string;
 }

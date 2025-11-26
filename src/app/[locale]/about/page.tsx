@@ -4,45 +4,69 @@ import ProductCategories from "@/components/about/ProductCategories";
 import Container from "@/components/shared/container";
 import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { getStatics, getAbout } from "@/services/About/server-api";
+import { queryKeys } from "@/lib/query-keys";
+import { StaticResponse, AboutResponse } from "@/types/types";
+import { getBanners } from "@/services/Home/server-api";
+import { Suspense } from "react";
 
 export default async function AboutPage({
-}: Record<string, never>) {
+  params, 
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const queryClient = new QueryClient();
+
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.about.statics(locale),
+      queryFn: () => getStatics(locale),
+    });
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.about.about(locale),
+      queryFn: () => getAbout(locale),
+    });
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.home.banners("about", locale),
+      queryFn: () => getBanners("about", locale),
+    });
+  } catch (error) {
+    console.error("Error prefetching about page data:", error);
+  }
+
+  const statisticsData = queryClient.getQueryData<{ data: StaticResponse[] }>(
+    queryKeys.about.statics(locale)
+  );
+
+  const aboutData = queryClient.getQueryData<{ data: AboutResponse[] }>(
+    queryKeys.about.about(locale)
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container>
         <div>
-          <AboutBanner />
-          <WhoWeAre />
+          <Suspense fallback={<div className="w-full h-[300px] bg-gray-200 rounded-[20px] animate-pulse"></div>}>
+            <AboutBanner  />
+          </Suspense>
+          <WhoWeAre statistics={statisticsData?.data || []} about={aboutData?.data || []} />
           <ProductCategories />
-          <div className="bg-[#F6F6F6] rounded-[20px]  p-6 mt-6 md:mt-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 ">
-              {/* Left side - Title */}
-              <div className="flex items-center   ">
-                <h2 className="text-3xl md:text-5xl font-bold text-black">
-                  Niyə Biz?
-                </h2>
-              </div>
+          
 
-              {/* Right side - Three paragraphs */}
-              <div className="flex flex-col gap-2 md:gap-4">
-                <p className="text-sm md:text-base text-black leading-relaxed">
-                  AGRO GÜBRƏ fərqi — sistem yanaşmasındadır. Layihələrimiz fərdi
-                  həllər əsasında qurulur və sahənin potensialını maksimum
-                  dərəcədə üzə çıxarır.
-                </p>
-                <p className="text-sm md:text-base text-black leading-relaxed">
-                  Komandamızda aqronomlar, mühəndislər, kimyaçılar, xəritəçilər və
-                  layihə rəhbərləri çalışır. 
-                </p>
-                <p className="text-sm md:text-base text-black leading-relaxed">
-                  250-dən çox uğurlu layihə və artan beynəlxalq əməkdaşlıqlar AGRO
-                  GÜBRƏ -nin bu sahədəki mövqeyini təsdiqləyir.
-                </p>
-              </div>
-            </div>
-          </div>
+              {/* Third item - index 2 */}
+              {aboutData?.data[2] && (
+                <div className="bg-[#F6F6F6] rounded-[20px] p-6 mt-6 md:mt-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    <div className="flex items-center">
+                      <h2 className="text-3xl md:text-5xl font-bold text-black">
+                        {aboutData.data[2].title}
+                      </h2>
+                    </div>
+                    <div className="text-sm md:text-base text-black leading-relaxed" dangerouslySetInnerHTML={{ __html: aboutData.data[2].description || "" }} />
+                  </div>
+                </div>
+              )}
         </div>
       </Container>
     </HydrationBoundary>

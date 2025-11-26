@@ -11,10 +11,12 @@ import { MobileMenu } from "./mobile-menu";
 import { useTranslations } from "next-intl";
 import { navigationItems } from "@/utils/static";
 import { useServices } from "@/services/Service/queries";
+import { useProductCategories } from "@/services/Product/queries";
 
 export function Header() {
   const t = useTranslations("navigation");
   const { data: servicesData } = useServices();
+  const { data: productCategoriesData } = useProductCategories();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -107,7 +109,42 @@ export function Header() {
                   );
                 }
                 
-                // Digər dropdown-lar üçün statik datadan istifadə et
+                  if (item.label === "products" && item.hasDropdown && productCategoriesData?.data) {
+                  const isOpen = openDropdown === item.label;
+                  return (
+                    <DropdownMenu
+                      key={item.label}
+                      open={isOpen}
+                      onOpenChange={(open) => handleOpenChange(item.label, open)}
+                      modal={false}
+                    >
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className="flex items-center gap-1.5 text-base text-black hover:text-primary cursor-pointer transition-all duration-300 ease-in-out"
+                          onMouseEnter={() => handleMouseEnter(item.label)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          {t(item.label)}
+                          {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        sideOffset={8}
+                        align="start"
+                        onMouseEnter={() => handleMouseEnter(item.label)}
+                        onMouseLeave={handleMouseLeave}
+                        onCloseAutoFocus={(e) => e.preventDefault()}
+                      >
+                        {productCategoriesData.data.map((category) => (
+                          <DropdownMenuItem asChild key={category.slug}>
+                            <Link href={`/products?category=${category.slug}`} className="transition-all duration-300 ease-in-out">{category.name}</Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                }
+                
                 if (item.hasDropdown && item.dropdownItems) {
                   const isOpen = openDropdown === item.label;
                   return (

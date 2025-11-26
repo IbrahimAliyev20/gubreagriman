@@ -1,38 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
-import { useCategoryProducts } from "@/services/Product/queries";
+import { useCategoryProductsInfinite } from "@/services/Product/queries";
 import { CategoryProducts } from "@/types/types";
 import { Loader2 } from "lucide-react";
+import { useInView } from "react-intersection-observer";
 
 interface ProductListProps {
   categorySlug: string;
 }
 
 export default function ProductList({ categorySlug }: ProductListProps) {
-  const { data: response, isLoading, isError, error } = useCategoryProducts(categorySlug);
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useCategoryProductsInfinite(categorySlug);
 
-  // Normalize products from different possible API responses
-  const getProducts = (): CategoryProducts[] => {
-    if (!response) return [];
+  const { ref, inView } = useInView({
+    threshold: 0,
+    rootMargin: "400px",
+  });
 
-    // Handle nested data structure: { data: { data: [...] } }
-    if (response.data?.data && Array.isArray(response.data.data)) {
-      return response.data.data;
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-    // Handle { data: [...] }
-    if (response.data && Array.isArray(response.data)) {
-      return response.data;
-    }
-    // Handle direct array (rare)
-    if (Array.isArray(response)) {
-      return response;
-    }
-    return [];
-  };
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const products = getProducts();
+  const products: CategoryProducts[] = 
+    data?.pages
+      .flatMap((page) => page?.data?.data ?? [])
+      .filter((product): product is CategoryProducts => product != null) ?? [];
 
   if (isLoading) {
     return (
@@ -53,32 +57,52 @@ export default function ProductList({ categorySlug }: ProductListProps) {
         </div>
         <p className="text-xl font-medium text-gray-700">Məhsul tapılmadı</p>
         <p className="text-gray-500 mt-2">Bu kateqoriyada hələ məhsul əlavə edilməyib.</p>
-        {isError && <p className="text-red-500 text-sm mt-4">Xəta: {(error as Error)?.message || "Naməlum xəta"}</p>}
+        {isError && (
+          <p className="text-red-500 text-sm mt-4">
+            Xəta: {error instanceof Error ? error.message : error ? String(error) : "Naməlum xəta"}
+          </p>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
-      {products.map((product) => {
-        const validImage = (() => {
-          if (!product.image || product.image.trim() === "") return product.thumb_image;
-          if (!product.thumb_image || product.thumb_image.trim() === "") return product.image;
-          return product.image;
-        })();
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+        {products.map((product) => {
+          if (!product) return null;
+          
+          const image = product?.image || product?.thumb_image || "/placeholder-product.jpg";
 
-        return (
-          <ProductCard
-            key={product.slug}
-            product={{
-              name: product.name,
-              category: product.category,
-              image: validImage || "/placeholder-product.jpg", // fallback image
-              slug: product.slug,
-            }}
-          />
-        );
-      })}
-    </div>
+          return (
+            <ProductCard
+              key={product.slug}
+              product={{
+                name: product.name,
+                category: product.category,
+                image,
+                slug: product.slug,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {hasNextPage && (
+        <div ref={ref} className="flex justify-center py-12">
+          {isFetchingNextPage ? (
+            <Loader2 className="w-8 h-8 animate-spin text-[#8BC34A]" />
+          ) : (
+            <div className="h-10" />
+          )}
+        </div>
+      )}
+
+      {!hasNextPage && products.length > 9 && (
+        <div className="text-center py-8 text-gray-500 font-medium">
+          Bütün məhsullar yükləndi
+        </div>
+      )}
+    </>
   );
 }

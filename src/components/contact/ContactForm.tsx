@@ -6,8 +6,9 @@ import { useState, FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { useContactFormMutation } from "@/services/ContactForm/mutations";
 import { toast } from "sonner";
+import { ContactsResponse } from "@/types/types";
 
-export default function ContactForm() {
+export default function ContactForm({ contacts }: { contacts: ContactsResponse }) {
   const t = useTranslations("buttons");
   const tMessages = useTranslations("messages");
   const [formData, setFormData] = useState({
@@ -70,15 +71,15 @@ export default function ContactForm() {
             əlaqə saxlayın
           </h2>
           <p className="text-white text-lg md:text-xl">
-            <a href="tel:*8899" className="text-2xl md:text-4xl font-bold hover:opacity-80 transition-opacity cursor-pointer">*8899</a> <br />
-            E-poçt: <a href="mailto:info@agrogubre.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity cursor-pointer">info@agrogubre.com</a>
+            <a href={`tel:${contacts?.short_code}`} className="text-2xl md:text-4xl font-bold hover:opacity-80 transition-opacity cursor-pointer">{contacts?.short_code}</a> <br />
+            E-poçt: <a href={`mailto:${contacts?.email}`} target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity cursor-pointer">{contacts?.email}</a>
           </p>
         </div>
 
         <div className="mt-auto">
           <div className="w-full rounded-[20px] border border-white/70    p-4 md:p-6">
             <p className="text-white text-sm md:text-base">
-              İş saatları: Həftəiçi 09:00-18:00
+              {contacts?.work_hours}
             </p>
           </div>
         </div>

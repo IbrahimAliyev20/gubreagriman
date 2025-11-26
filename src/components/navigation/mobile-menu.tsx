@@ -16,6 +16,7 @@ import { navigationItems } from "@/utils/static";
 import Image from "next/image";
 import LanguageSelector from "../shared/language-selector";
 import { useServices } from "@/services/Service/queries";
+import { useProductCategories } from "@/services/Product/queries";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -23,8 +24,9 @@ export function MobileMenu() {
   const pathname = usePathname();
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const { data: servicesData } = useServices();
+  const { data: productCategoriesData } = useProductCategories();
 
-  // Services dropdown üçün API-dən gələn datadan istifadə et
+  // Services və Products dropdown üçün API-dən gələn datadan istifadə et
   const dynamicNavigationItems = navigationItems.map((item) => {
     if (item.label === "services" && item.hasDropdown && servicesData?.data) {
       return {
@@ -32,6 +34,15 @@ export function MobileMenu() {
         dropdownItems: servicesData.data.map((service) => ({
           label: service.title,
           href: `/services?slug=${service.slug}`,
+        })),
+      };
+    }
+    if (item.label === "products" && item.hasDropdown && productCategoriesData?.data) {
+      return {
+        ...item,
+        dropdownItems: productCategoriesData.data.map((category) => ({
+          label: category.name,
+          href: `/products?category=${category.slug}`,
         })),
       };
     }

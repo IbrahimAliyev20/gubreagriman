@@ -7,7 +7,7 @@ import CaruselLogo from "@/components/shared/carusel-logo";
 import Container from "@/components/shared/container";
 import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getBanners, getPartners } from "@/services/Home/server-api";
+import { getBanners, getHomeAbout, getPartners } from "@/services/Home/server-api";
 import { getServices } from "@/services/Service/server-api";
 import { queryKeys } from "@/lib/query-keys";
 
@@ -32,6 +32,10 @@ export default async function Home({
       queryClient.prefetchQuery({
         queryKey: queryKeys.home.partners(locale),
         queryFn: () => getPartners(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.homeAbout(locale),
+        queryFn: () => getHomeAbout(locale),
       }),
     ]);
   } catch (error) {
@@ -64,7 +68,36 @@ export default async function Home({
             <HeroBanner />
           </Suspense>
 
-          <AboutHome />
+          <Suspense fallback={
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center animate-pulse">
+              <div className="relative h-[250px] md:h-full order-first md:order-last">
+                <div className="w-full h-full bg-gray-200 rounded-[20px]"></div>
+              </div>
+              <div className="space-y-3 md:space-y-6">
+                <div className="flex flex-col pl-0 md:pl-12">
+                  <div className="h-6 w-32 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-12 md:h-16 w-64 bg-gray-200 rounded"></div>
+                </div>
+                <div className="bg-[#83B957] rounded-3xl p-4 md:p-12">
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-gray-300 rounded"></div>
+                    <div className="h-4 w-full bg-gray-300 rounded"></div>
+                    <div className="h-4 w-3/4 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+                <div className="bg-[#F6F6F6] border border-gray-200 rounded-3xl p-4 md:p-12">
+                  <div className="space-y-2 mb-4 md:mb-6">
+                    <div className="h-4 w-full bg-gray-200 rounded"></div>
+                    <div className="h-4 w-full bg-gray-200 rounded"></div>
+                    <div className="h-4 w-3/4 bg-gray-200 rounded"></div>
+                  </div>
+                  <div className="h-10 w-32 bg-gray-200 rounded-[20px]"></div>
+                </div>
+              </div>
+            </div>
+          }>
+            <AboutHome />
+          </Suspense>
 
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center py-24">
@@ -111,7 +144,6 @@ export default async function Home({
             <OurServices />
           </Suspense>
 
-          {/* <BlogSec /> */}
 
           <Suspense fallback={
             <div className="h-[60px] md:h-[100px] relative overflow-hidden">

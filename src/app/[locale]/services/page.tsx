@@ -6,9 +6,10 @@ import CaruselLogo from "@/components/shared/carusel-logo";
 import Image from "next/image";
 import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getBanners } from "@/services/Home/server-api";
+import { getBanners, getHomeAbout } from "@/services/Home/server-api";
 import { getServices } from "@/services/Service/server-api";
 import { queryKeys } from "@/lib/query-keys";
+import { ApiResponse, HomeAboutResponse } from "@/types/types";
 
 export default async function ServicesPage({
   params,
@@ -28,10 +29,18 @@ export default async function ServicesPage({
         queryKey: queryKeys.services.list(locale),
         queryFn: () => getServices(locale),
       }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.homeAbout(locale),
+        queryFn: () => getHomeAbout(locale),
+      }),
     ]);
   } catch (error) {
     console.error("Error prefetching services page data:", error);
   }
+
+  const homeAboutData = queryClient.getQueryData<ApiResponse<HomeAboutResponse>>(
+    queryKeys.home.homeAbout(locale)
+  )?.data;
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -91,13 +100,17 @@ export default async function ServicesPage({
             <CaruselLogo />
           </Suspense>
 
-          <Image
-            src="/images/traktor.png"
+          <Suspense fallback={
+            <div className="w-full h-[300px] bg-gray-200 rounded-[20px] animate-pulse"></div>
+          }>
+            <Image
+            src={homeAboutData?.service_image || "/images/traktor.png"}
             alt="Services Image"
             width={300}
             height={300}
             className="w-full h-[300px] object-cover rounded-[20px]"
           />
+          </Suspense>
         </div>
       </Container>
     </HydrationBoundary>

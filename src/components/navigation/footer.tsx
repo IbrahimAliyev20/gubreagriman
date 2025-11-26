@@ -10,9 +10,18 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useTranslations } from "next-intl";
+import { useSocialLinks } from "@/services/Home/queries";
+import { useContacts } from "@/services/Contacts/queries";
+import { ContactsResponse } from "@/types/types";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const { data: socialLinksData } = useSocialLinks();
+  const { data: contactsData } = useContacts();
+  const socialLinks = socialLinksData?.data || [];
+  const contacts: ContactsResponse | undefined = Array.isArray(contactsData) 
+    ? contactsData[0] 
+    : contactsData;
   return (
     <footer className="bg-white border-t border-gray-200 mt-5 md:mt-20">
       <Container>
@@ -29,10 +38,7 @@ export function Footer() {
               />
             </div>
             <p className="text-sm text-gray-700 leading-relaxed max-w-md">
-              Biz gübrələr, bitki mühafizəsi məhsulları və kənd təsərrüfatı
-              xidmətləri təklif edən müasir kənd təsərrüfatı şirkətiyik.
-              Məqsədimiz fermerlərə məhsuldarlığı artırmaqda, xərcləri
-              azaltmaqda və təbii tarazlığı qorumaqda kömək etməkdir.
+              {contacts?.footer_description_2}
             </p>
           </div>
 
@@ -85,87 +91,52 @@ export function Footer() {
           <div className="md:col-span-2">
             <h3 className="font-semibold text-gray-900 mb-4">{t("socials")}</h3>
             <ul className="space-y-3">
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("instagram")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("facebook")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("twitter")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("linkedin")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("youtube")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                >
-                  {t("tiktok")}
-                </Link>
-              </li>
+              {socialLinks.map((socialLink, index) => (
+                <li key={index}>
+                  <Link
+                    href={socialLink.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                  >
+                    {socialLink.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="md:col-span-3">
-            <h3 className="font-semibold text-gray-900 mb-4">{t("contacts")}</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">
+              {t("contacts")}
+            </h3>
             <div className="space-y-3 text-sm">
               <p className="text-gray-600">
                 <Link
-                  href="mailto:info@agrogubre.com"
+                  href={`mailto:${contacts?.email || "info@agrogubre.com"}`}
                   className="text-green-700 hover:text-green-800 transition-all duration-300 ease-in-out cursor-pointer font-medium"
                 >
-                  info@agrogubre.com
+                  {contacts?.email || "info@agrogubre.com"}
                 </Link>
               </p>
               <p className="text-gray-600">
                 <Link
-                  href="tel:*8899"
+                  href={`tel:${contacts?.short_code || "*8899"}`}
                   className="text-[#4CA900] transition-all duration-300 ease-in-out cursor-pointer text-4xl font-bold hover:scale-105 active:scale-95"
                 >
-                  *8899
+                  {contacts?.short_code || "*8899"}
                 </Link>
               </p>
               <div className=" pt-2 border-t border-gray-200">
                 <h4 className="font-semibold text-gray-900 mb-3 text-lg leading-snug">
-                  {t("findSolution")}
+                  {contacts?.footer_title}
                 </h4>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  {t("findSolutionDesc")}
+                  {contacts?.footer_description_1}
                 </p>
               </div>
             </div>
           </div>
-          
         </div>
 
         <div className="block md:hidden py-10">
@@ -181,10 +152,7 @@ export function Footer() {
               />
             </div>
             <p className="text-sm text-gray-700 leading-relaxed max-w-md">
-              Biz gübrələr, bitki mühafizəsi məhsulları və kənd təsərrüfatı
-              xidmətləri təklif edən müasir kənd təsərrüfatı şirkətiyik.
-              Məqsədimiz fermerlərə məhsuldarlığı artırmaqda, xərcləri
-              azaltmaqda və təbii tarazlığı qorumaqda kömək etməkdir.
+              {contacts?.footer_description_2}
             </p>
           </div>
 
@@ -245,54 +213,18 @@ export function Footer() {
               </AccordionTrigger>
               <AccordionContent className="pb-4">
                 <ul className="space-y-3 pl-2">
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("instagram")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("facebook")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("twitter")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("linkedin")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("youtube")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
-                    >
-                      {t("tiktok")}
-                    </Link>
-                  </li>
+                  {socialLinks.map((socialLink, index) => (
+                    <li key={index}>
+                      <Link
+                        href={socialLink.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer text-sm"
+                      >
+                        {socialLink.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </AccordionContent>
             </AccordionItem>
@@ -308,18 +240,18 @@ export function Footer() {
                 <div className="space-y-3 text-sm">
                   <p className="text-gray-600">
                     <Link
-                      href="mailto:info@agrogubre.com"
+                      href={`mailto:${contacts?.email || "info@agrogubre.com"}`}
                       className="text-green-700 hover:text-green-800 transition-all duration-300 ease-in-out cursor-pointer font-medium"
                     >
-                      info@agrogubre.com
+                      {contacts?.email || "info@agrogubre.com"}
                     </Link>
                   </p>
                   <p className="text-gray-600">
                     <Link
-                      href="tel:*8899"
+                      href={`tel:${contacts?.short_code || "*8899"}`}
                       className="text-[#4CA900] transition-all duration-300 ease-in-out cursor-pointer text-4xl font-bold hover:scale-105 active:scale-95"
                     >
-                      *8899
+                      {contacts?.short_code || "*8899"}
                     </Link>
                   </p>
                 </div>
@@ -332,15 +264,24 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
             <p>{t("allRightsReserved")}</p>
             <div className="flex flex-col items-center gap-2 md:flex-row md:gap-3">
-              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+              <Link
+                href="#"
+                className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
+              >
                 {t("termsConditions")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
-              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+              <Link
+                href="#"
+                className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
+              >
                 {t("privacyPolicy")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
-              <Link href="#" className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer">
+              <Link
+                href="#"
+                className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
+              >
                 {t("agreement")}
               </Link>
             </div>

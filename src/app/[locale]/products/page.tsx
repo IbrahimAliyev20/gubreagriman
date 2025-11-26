@@ -8,6 +8,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { getProductCategories } from "@/services/Product/server-api";
 import { getServices } from "@/services/Service/server-api";
 import { queryKeys } from "@/lib/query-keys";
+import { getBanners } from "@/services/Home/server-api";
 
 export default async function ProductsPage({
   params,
@@ -26,6 +27,10 @@ export default async function ProductsPage({
       queryClient.prefetchQuery({
         queryKey: queryKeys.services.list(locale),
         queryFn: () => getServices(locale),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.home.banners("product", locale),
+        queryFn: () => getBanners("product", locale),
       }),
     ]);
   } catch (error) {
