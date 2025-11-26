@@ -48,12 +48,8 @@ export const useProductTabs = ({ categoriesData, selectedProduct, initialCategor
         if (category) {
           setMainTab(category.slug);
           setShowProductDetail(false);
-
-          if (category.sub_categories?.length) {
-            setSubTab(category.sub_categories[0].slug);
-          } else {
-            setSubTab("");
-          }
+          // Əsas kateqoriya yüklənəndə alt kateqoriya avtomatik seçilməsin
+          setSubTab("");
           return;
         }
       }
@@ -63,12 +59,8 @@ export const useProductTabs = ({ categoriesData, selectedProduct, initialCategor
       if (firstCategory) {
         setMainTab(firstCategory.slug);
         setShowProductDetail(false);
-
-        if (firstCategory.sub_categories?.length) {
-          setSubTab(firstCategory.sub_categories[0].slug);
-        } else {
-          setSubTab("");
-        }
+        // İlk kateqoriya yüklənəndə alt kateqoriya avtomatik seçilməsin
+        setSubTab("");
       }
     } catch (error) {
       console.error("Error matching category:", error);
@@ -78,15 +70,8 @@ export const useProductTabs = ({ categoriesData, selectedProduct, initialCategor
   const handleMainTabChange = (value: string) => {
     setMainTab(value);
     setShowProductDetail(false);
-
-    const category = categoriesData?.data.find((cat) => cat.slug === value);
-    const hasSubs = category?.sub_categories?.length;
-
-    if (hasSubs && category?.sub_categories) {
-      setSubTab(category.sub_categories[0].slug);
-    } else {
-      setSubTab("");
-    }
+    // Əsas kateqoriyaya klikləndikdə alt kateqoriya seçilməsin, əsas kateqoriyanın məhsulları göstərilsin
+    setSubTab("");
   };
 
   const handleSubCategorySelect = (slug: string) => {

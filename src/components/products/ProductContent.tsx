@@ -32,25 +32,12 @@ export const ProductContent = ({
     );
   }
 
-  // Əgər main category var amma subcategory yoxdursa
+  // Əgər main category var amma subcategory yoxdursa, əsas kateqoriyanın məhsullarını göstər
   if (mainTab) {
-    const currentCategory = categories?.find((cat) => cat.slug === mainTab);
-    const hasSubCategories = currentCategory?.sub_categories && currentCategory.sub_categories.length > 0;
-
-    // Əgər main category-də subcategory yoxdursa, birbaşa main category-dən məhsulları göstər
-    if (!hasSubCategories) {
-      return (
-        <TabsContent value={mainTab} className="mt-0">
-          <ProductList categorySlug={mainTab} />
-        </TabsContent>
-      );
-    }
-
-    // Əgər subcategory-lər varsa amma heç biri seçilməyibsə, "Alt kateqoriya seçin" mesajını göstər
     return (
-      <div className="flex items-center justify-center py-32">
-        <p className="text-xl text-gray-500 font-medium">Alt kateqoriya seçin</p>
-      </div>
+      <TabsContent value={mainTab} className="mt-0">
+        <ProductList categorySlug={mainTab} />
+      </TabsContent>
     );
   }
 

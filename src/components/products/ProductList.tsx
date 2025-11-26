@@ -35,7 +35,15 @@ export default function ProductList({ categorySlug }: ProductListProps) {
 
   const products: CategoryProducts[] = 
     data?.pages
-      .flatMap((page) => page?.data?.data ?? [])
+      .flatMap((page) => {
+        if (page?.data?.data && Array.isArray(page.data.data)) {
+          return page.data.data;
+        }
+        if (Array.isArray(page?.data)) {
+          return page.data;
+        }
+        return [];
+      })
       .filter((product): product is CategoryProducts => product != null) ?? [];
 
   if (isLoading) {
