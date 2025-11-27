@@ -265,21 +265,21 @@ export function Footer() {
             <p>{t("allRightsReserved")}</p>
             <div className="flex flex-col items-center gap-2 md:flex-row md:gap-3">
               <Link
-                href="#"
+                href="/terms-conditions"
                 className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
               >
                 {t("termsConditions")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
               <Link
-                href="#"
+                href="/privacy-policy"
                 className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
               >
                 {t("privacyPolicy")}
               </Link>
               <span className="text-gray-300 hidden md:block">|</span>
               <Link
-                href="#"
+                href="/agreement"
                 className="hover:text-gray-900 transition-all duration-300 ease-in-out cursor-pointer"
               >
                 {t("agreement")}
