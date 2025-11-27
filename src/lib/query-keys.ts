@@ -42,4 +42,9 @@ export const queryKeys = {
     all: ['contacts'] as const,
     contacts: (locale: string) => [...queryKeys.contacts.all, 'contact', locale] as const,
   },
+
+  terms: {
+    all: ['terms'] as const,
+    terms: (slug: string, locale: string) => [...queryKeys.terms.all, 'terms', slug, locale] as const,
+  },
 } as const;

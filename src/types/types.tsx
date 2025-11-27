@@ -143,3 +143,8 @@ export interface ContactsResponse {
   footer_description_1: string;
   footer_description_2: string;
 }
+
+export interface TermsResponse {
+  title: string;
+  description: string;
+}

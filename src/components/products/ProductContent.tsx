@@ -17,7 +17,6 @@ export const ProductContent = ({
   selectedProduct,
   mainTab,
   subTab,
-  categories,
 }: ProductContentProps) => {
   if (showProductDetail && selectedProduct) {
     return <ProductDetailComponent product={selectedProduct} />;
