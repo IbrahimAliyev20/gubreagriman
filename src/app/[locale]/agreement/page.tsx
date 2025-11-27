@@ -8,7 +8,7 @@ export default async function AgreementPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  await params; // Destructure if needed in future
   const queryClient = new QueryClient();
 
   return (
@@ -65,7 +65,7 @@ export default async function AgreementPage({
                   </h3>
                   <p className="mb-4">
                     Biz platformamızda kənd təsərrüfatı məhsulları, gübrələr və əlaqəli məlumatlar 
-                    təqdim edirik. Xidmətlərimiz "olduğu kimi" təqdim olunur və biz onların 
+                    təqdim edirik. Xidmətlərimiz &quot;olduğu kimi&quot; təqdim olunur və biz onların 
                     mükəmməl olmasını zəmanət vermirik. Platformada texniki problemlər və ya 
                     fasilələr ola bilər.
                   </p>

@@ -8,7 +8,7 @@ export default async function PrivacyPolicyPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  await params; // Destructure if needed in future
   const queryClient = new QueryClient();
 
   return (
@@ -29,7 +29,7 @@ export default async function PrivacyPolicyPage({
                     1. Giriş
                   </h3>
                   <p className="mb-4">
-                    Agro Gubre şirkəti ("Biz", "Bizim") şəxsi məlumatlarınızın məxfiliyini və 
+                    Agro Gubre şirkəti (&quot;Biz&quot;, &quot;Bizim&quot;) şəxsi məlumatlarınızın məxfiliyini və 
                     təhlükəsizliyini qorumaq üçün səy göstəririk. Bu Məxfilik Siyasəti sizə 
                     məlumatlarınızın necə toplandığını, istifadə olunduğunu və qorunduğunu izah edir.
                   </p>

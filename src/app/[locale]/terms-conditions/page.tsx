@@ -8,7 +8,7 @@ export default async function TermsConditionsPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  await params; // Destructure if needed in future
   const queryClient = new QueryClient();
 
   return (
@@ -29,7 +29,7 @@ export default async function TermsConditionsPage({
                     1. Ümumi Məlumat
                   </h3>
                   <p className="mb-4">
-                    Bu İstifadə Şərtləri ("Şərtlər") Agro Gubre şirkətinin ("Biz", "Bizim") 
+                    Bu İstifadə Şərtləri (&quot;Şərtlər&quot;) Agro Gubre şirkətinin (&quot;Biz&quot;, &quot;Bizim&quot;) 
                     rəsmi veb-saytı və xidmətlərinin istifadəsi ilə bağlı qaydaları müəyyən edir. 
                     Platformamızdan istifadə etməklə siz bu şərtləri qəbul etmiş sayılırsınız.
                   </p>
