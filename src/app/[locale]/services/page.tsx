@@ -9,7 +9,24 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { getBanners, getHomeAbout } from "@/services/Home/server-api";
 import { getServices } from "@/services/Service/server-api";
 import { queryKeys } from "@/lib/query-keys";
-import { ApiResponse, HomeAboutResponse } from "@/types/types";
+import { ApiResponse, HomeAboutResponse, MetaTagsResponse } from "@/types/types";
+import getMetaTags from "@/services/Meta-tags/api";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<MetaTagsResponse> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("service", locale);
+
+  return {
+    title: metaTagsData?.data?.title,
+    meta_title: metaTagsData?.data?.meta_title,
+    meta_description: metaTagsData?.data?.meta_description,
+    meta_keywords: metaTagsData?.data?.meta_keywords,
+  };
+}
 
 export default async function ServicesPage({
   params,

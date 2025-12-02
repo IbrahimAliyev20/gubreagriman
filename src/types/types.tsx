@@ -142,9 +142,17 @@ export interface ContactsResponse {
   footer_title: string;
   footer_description_1: string;
   footer_description_2: string;
+  favicon: string;
 }
 
 export interface TermsResponse {
   title: string;
   description: string;
+}
+
+export interface MetaTagsResponse {
+  title: string;
+  meta_title: string;
+  meta_description: string;
+  meta_keywords: string;
 }

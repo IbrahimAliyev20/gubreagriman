@@ -8,6 +8,24 @@ import { getBanners, getPartners } from "@/services/Home/server-api";
 import { queryKeys } from "@/lib/query-keys";
 import { getContacts } from '@/services/Contacts/server-api';
 import { Suspense } from 'react';
+import { MetaTagsResponse } from "@/types/types";
+import getMetaTags from "@/services/Meta-tags/api";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<MetaTagsResponse> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("contact", locale);
+
+  return {
+    title: metaTagsData?.data?.title,
+    meta_title: metaTagsData?.data?.meta_title,
+    meta_description: metaTagsData?.data?.meta_description,
+    meta_keywords: metaTagsData?.data?.meta_keywords,
+  };
+}
 
 export default async function ContactPage({
   params,
@@ -35,7 +53,6 @@ export default async function ContactPage({
       }),
     ]);
 
-    // Fetch contacts data for server-side rendering
     const contactsResponse = await getContacts(locale);
     contacts = contactsResponse;
   } catch (error) {

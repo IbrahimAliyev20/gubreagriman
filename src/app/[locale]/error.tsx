@@ -18,13 +18,10 @@ export default function Error({
   const router = useRouter()
 
   useEffect(() => {
-    // Log error to console in development
     if (process.env.NODE_ENV === 'development') {
       console.error('Locale error:', error)
     }
 
-    // In production, you might want to send this to an error reporting service
-    // Example: Sentry.captureException(error)
   }, [error])
 
   const handleGoHome = () => {

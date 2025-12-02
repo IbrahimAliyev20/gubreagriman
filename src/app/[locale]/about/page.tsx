@@ -6,12 +6,29 @@ import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { getStatics, getAbout } from "@/services/About/server-api";
 import { queryKeys } from "@/lib/query-keys";
-import { StaticResponse, AboutResponse } from "@/types/types";
+import { StaticResponse, AboutResponse, MetaTagsResponse } from "@/types/types";
 import { getBanners } from "@/services/Home/server-api";
 import { Suspense } from "react";
+import getMetaTags from "@/services/Meta-tags/api";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<MetaTagsResponse> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("about", locale);
+
+  return {
+    title: metaTagsData?.data?.title,
+    meta_title: metaTagsData?.data?.meta_title,
+    meta_description: metaTagsData?.data?.meta_description,
+    meta_keywords: metaTagsData?.data?.meta_keywords,
+  };
+}
 
 export default async function AboutPage({
-  params, 
+  params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
@@ -47,26 +64,37 @@ export default async function AboutPage({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container>
         <div>
-          <Suspense fallback={<div className="w-full h-[300px] bg-gray-200 rounded-[20px] animate-pulse"></div>}>
-            <AboutBanner  />
+          <Suspense
+            fallback={
+              <div className="w-full h-[300px] bg-gray-200 rounded-[20px] animate-pulse"></div>
+            }
+          >
+            <AboutBanner />
           </Suspense>
-          <WhoWeAre statistics={statisticsData?.data || []} about={aboutData?.data || []} />
+          <WhoWeAre
+            statistics={statisticsData?.data || []}
+            about={aboutData?.data || []}
+          />
           <ProductCategories />
-          
 
-              {/* Third item - index 2 */}
-              {aboutData?.data[2] && (
-                <div className="bg-[#F6F6F6] rounded-[20px] p-6 mt-6 md:mt-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                    <div className="flex items-center">
-                      <h2 className="text-3xl md:text-5xl font-bold text-black">
-                        {aboutData.data[2].title}
-                      </h2>
-                    </div>
-                    <div className="text-sm md:text-base text-black leading-relaxed" dangerouslySetInnerHTML={{ __html: aboutData.data[2].description || "" }} />
-                  </div>
+          {/* Third item - index 2 */}
+          {aboutData?.data[2] && (
+            <div className="bg-[#F6F6F6] rounded-[20px] p-6 mt-6 md:mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="flex items-center">
+                  <h2 className="text-3xl md:text-5xl font-bold text-black">
+                    {aboutData.data[2].title}
+                  </h2>
                 </div>
-              )}
+                <div
+                  className="text-sm md:text-base text-black leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: aboutData.data[2].description || "",
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </Container>
     </HydrationBoundary>

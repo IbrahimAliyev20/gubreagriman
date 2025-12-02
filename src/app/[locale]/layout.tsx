@@ -14,11 +14,44 @@ import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { getSocialLinks } from "@/services/Home/server-api";
 import { queryKeys } from "@/lib/query-keys";
 import NextTopLoader from "nextjs-toploader";
+import { MetaTagsResponse } from "@/types/types";
+import getMetaTags from "@/services/Meta-tags/api";
+import { getContacts } from "@/services/Contacts/server-api";
+import type { Metadata } from "next";
 
 const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-archivo",
 });
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("home", locale);
+  
+  let faviconUrl: string | undefined;
+  try {
+    const contacts = await getContacts(locale);
+    faviconUrl = contacts?.favicon;
+  } catch (error) {
+    console.error("Error fetching favicon:", error);
+  }
+
+  return {
+    title: metaTagsData?.data?.title,
+    description: metaTagsData?.data?.meta_description,
+    keywords: metaTagsData?.data?.meta_keywords,
+    ...(faviconUrl && {
+      icons: {
+        icon: faviconUrl,
+        shortcut: faviconUrl,
+        apple: faviconUrl,
+      },
+    }),
+  };
+}
 
 export default async function RootLayout({
   children,

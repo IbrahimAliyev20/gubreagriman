@@ -6,6 +6,24 @@ import { HydrationBoundary } from "@/providers/HydrationBoundary";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { getPartners } from "@/services/Home/server-api";
 import { queryKeys } from "@/lib/query-keys";
+import { MetaTagsResponse } from "@/types/types";
+import getMetaTags from "@/services/Meta-tags/api";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<MetaTagsResponse> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("career", locale);
+
+  return {
+    title: metaTagsData?.data?.title,
+    meta_title: metaTagsData?.data?.meta_title,
+    meta_description: metaTagsData?.data?.meta_description,
+    meta_keywords: metaTagsData?.data?.meta_keywords,
+  };
+}
 
 export default async function CareerPage({
   params,

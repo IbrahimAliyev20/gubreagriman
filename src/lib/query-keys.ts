@@ -42,6 +42,10 @@ export const queryKeys = {
     all: ['contacts'] as const,
     contacts: (locale: string) => [...queryKeys.contacts.all, 'contact', locale] as const,
   },
+  metaTags: {
+    all: ['meta-tags'] as const,
+    metaTags: (locale: string) => [...queryKeys.metaTags.all, 'meta-tags', locale] as const,
+  },
 
   terms: {
     all: ['terms'] as const,

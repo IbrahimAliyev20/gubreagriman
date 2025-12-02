@@ -2,6 +2,24 @@ import PrivacyBanner from "@/components/legal/PrivacyBanner";
 import Container from "@/components/shared/container";
 import { getTerms } from "@/services/Terms/api";
 import { getLocale } from "next-intl/server";
+import { MetaTagsResponse } from "@/types/types";
+import getMetaTags from "@/services/Meta-tags/api";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<MetaTagsResponse> {
+  const { locale } = await params;
+  const metaTagsData = await getMetaTags("privacy-policy", locale);
+
+  return {
+    title: metaTagsData?.data?.title,
+    meta_title: metaTagsData?.data?.meta_title,
+    meta_description: metaTagsData?.data?.meta_description,
+    meta_keywords: metaTagsData?.data?.meta_keywords,
+  };
+}
 
 export default async function PrivacyPolicyPage(){
 
